@@ -355,6 +355,57 @@
             background-color: var(--passport-blue);
         }
 
+        /* Custom Color Grid Options styling */
+        .color-grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 6px;
+        }
+        .color-group-title {
+            grid-column: span 2;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+        .color-swatch-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+        .color-preview-circle {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        .color-swatch-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .color-grid-container input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .color-grid-container input[type="radio"]:checked + .color-swatch-option {
+            border-color: var(--text-dark);
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+            background-color: #f8fafc;
+        }
+
         /* Character Space Sizing Checkboxes */
         .checkbox-container-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
         .checkbox-container-wrap input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
@@ -452,7 +503,7 @@
             margin-top: 15px;
         }
 
-        /* Interactive Slide to Submit Layout Component */
+        /* Interactive Slide to Submit Action Component Layout */
         .slider-submit-wrapper {
             width: 100%;
             background: #e2e8f0;
@@ -645,111 +696,139 @@
         }
 
         /* ==========================================================================
-           RESTORED ORIGINAL HIGH-APPEAL MOBILE COMPACT VERTICAL BOARDING PASS LAYOUT
+           FIXED ASPECT-RATIO LANDSCAPE BOARDING PASS
            ========================================================================== */
         .success-screen {
             background-color: #ffffff;
             animation: fadeIn 0.4s ease-out forwards;
+            padding: 10px 6px;
         }
         
-        /* Original responsive card container architecture setup */
+        /* The container holding the ticket frame */
+        .ticket-scale-wrapper {
+            width: 100%;
+            margin: 14px auto;
+            display: block;
+        }
+
+        /* Fixed Snapshot Canvas View Container Frame */
         .boarding-pass-ticket-snapshot-zone {
             background-color: #ffffff;
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 10px;
             overflow: hidden;
-            position: relative;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
             width: 100%;
-            margin: 0 auto;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            box-sizing: border-box;
+            position: relative;
         }
+
+        /* Decorative Floral Laurels from WhatsApp Image Reference Design Frame */
+        .ticket-laurel-accent {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .laurel-bottom-left { bottom: 40px; left: 10px; transform: rotate(15deg); }
+        .laurel-bottom-right { bottom: 40px; right: 10px; transform: scaleX(-1) rotate(15deg); }
 
         /* Top Header Segment */
         .ticket-header-strip {
             background-color: #0b2545;
             color: #ffffff;
-            padding: 12px 16px;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: relative;
+            z-index: 3;
         }
         .ticket-header-strip * { color: #ffffff !important; }
-        .ticket-header-left { display: flex; align-items: center; gap: 10px; }
-        .ticket-header-plane-icon { width: 20px; height: 20px; fill: #facc15 !important; }
-        .ticket-header-title-main { font-size: 14px; font-weight: 800; letter-spacing: 0.5px; margin: 0; text-transform: uppercase; }
-        .ticket-header-subtitle-main { font-size: 8.5px; opacity: 0.75; margin: 2px 0 0 0; letter-spacing: 0.2px; text-transform: uppercase; }
-        .ticket-header-right-meta { text-align: right; border-left: 2px dashed rgba(255, 255, 255, 0.3); padding-left: 10px; }
-        .ticket-header-right-meta h4 { margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.5px; }
+        .ticket-header-left { display: flex; align-items: center; gap: 8px; }
+        .ticket-header-plane-icon { width: 18px; height: 18px; fill: #facc15 !important; flex-shrink: 0; }
+        .ticket-header-title-main { font-size: 13px; font-weight: 800; letter-spacing: 0.3px; margin: 0; text-transform: uppercase; }
+        .ticket-header-subtitle-main { font-size: 8px; opacity: 0.75; margin: 1px 0 0 0; text-transform: uppercase; white-space: nowrap; }
+        .ticket-header-right-meta { text-align: right; border-left: 1px dashed rgba(255, 255, 255, 0.3); padding-left: 10px; flex-shrink: 0; }
+        .ticket-header-right-meta h4 { margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.3px; }
         .ticket-header-right-meta p { margin: 1px 0 0 0; font-size: 7.5px; opacity: 0.7; text-transform: uppercase; font-weight: 600; }
 
-        /* Restored core grid container panels */
+        /* Unified grid layout structure that stays fluid on mobile but maps clean on desktop */
         .ticket-body-grid-container {
             display: grid;
             grid-template-columns: 1.4fr 1px 1fr;
-            padding: 16px 14px;
+            padding: 12px 14px;
             background-color: #ffffff;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='150' viewBox='0 0 300 150' opacity='0.04'%3E%3Cpath d='M30,40 Q50,25 70,40 T120,45 T170,30 T220,50 T280,35' fill='none' stroke='%230b2545' stroke-width='1'/%3E%3Ccircle cx='50' cy='80' r='15' fill='%230b2545'/%3E%3Ccircle cx='180' cy='90' r='25' fill='%230b2545'/%3E%3C/svg%3E");
-            background-size: cover;
-            position: relative;
             gap: 12px;
             align-items: start;
+            position: relative;
+            z-index: 2;
         }
         
         .ticket-stub-divider-line {
             background-image: linear-gradient(to bottom, var(--border) 50%, rgba(255,255,255,0) 0%);
             background-position: right;
-            background-size: 1.5px 6px;
+            background-size: 1px 5px;
             background-repeat: repeat-y;
             width: 1px;
             height: 100%;
+            align-self: stretch;
         }
 
-        /* Clean data fields format values */
-        .ticket-data-box { margin-bottom: 10px; }
+        /* Data display controls to prevent layout spillover */
+        .ticket-data-box { margin-bottom: 6px; min-width: 0; }
         .ticket-data-box:last-child { margin-bottom: 0; }
-        .ticket-data-label { font-size: 7.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.3px; }
-        .ticket-data-value { font-size: 12px; font-weight: 800; color: var(--passport-blue); text-transform: uppercase; margin-top: 1px; }
+        .ticket-data-label { font-size: 7.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.2px; }
+        .ticket-data-value { font-size: 11.5px; font-weight: 800; color: var(--passport-blue); text-transform: uppercase; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
+        /* Safeguard user names from tearing elements apart */
         .ticket-data-value.passenger-highlight { 
-            font-size: 13.5px; 
-            color: #0b2545; 
-            white-space: normal; 
-            line-height: 1.2;
-            word-break: break-word;
+            font-size: 13px; 
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .ticket-stub-passenger-text {
-            font-size: 11.5px; 
+            font-size: 11px; 
             font-weight: 800; 
-            white-space: normal; 
-            line-height: 1.2; 
-            word-break: break-word;
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .ticket-side-flex-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .ticket-side-flex-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; min-width: 0; }
 
-        /* Original Barcode layout elements safely scaled */
-        .ticket-barcode-graphic-wrapper { display: flex; align-items: center; margin-top: 12px; gap: 1px; justify-content: flex-start; }
-        .barcode-line-element { height: 25px; background-color: #1e293b; width: 1.5px; }
-        .barcode-line-element.thick { width: 3.5px; }
-        .barcode-line-element.medium { width: 2.2px; }
-        .barcode-line-element.thin { width: 0.8px; }
+        /* Crisp scaled native barcode */
+        .ticket-barcode-graphic-wrapper { display: flex; align-items: center; margin-top: 6px; gap: 1px; justify-content: flex-start; overflow: hidden; height: 18px; }
+        .barcode-line-element { height: 100%; background-color: #1e293b; width: 1px; flex-shrink: 0; }
+        .barcode-line-element.thick { width: 3px; }
+        .barcode-line-element.medium { width: 2px; }
+        .barcode-line-element.thin { width: 0.5px; }
 
         /* Bottom Scriptural Base Panel View Layout */
         .ticket-scripture-footer-banner {
             background-color: #134074;
             color: #ffffff;
-            padding: 10px 12px;
+            padding: 8px 12px;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 32px;
+            position: relative;
+            z-index: 3;
         }
         .ticket-scripture-footer-banner p {
             margin: 0;
-            font-size: 8.5px;
+            font-size: 8px;
             font-weight: 700;
-            line-height: 1.3;
-            letter-spacing: 0.3px;
+            line-height: 1.2;
+            letter-spacing: 0.2px;
             text-transform: uppercase;
             color: #ffffff !important;
         }
@@ -794,6 +873,26 @@
         .whatsapp-icon-svg { width: 18px; height: 18px; fill: #ffffff; }
         
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* SPECIFIC CANVAS-ONLY EXPORT MODE TO RENDER A FLAWLESS 680px HIGH-RES PNG */
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode {
+            width: 680px !important;
+            max-width: none !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            z-index: -9999 !important;
+        }
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode .ticket-laurel-accent { width: 75px !important; height: 75px !important; }
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode .ticket-header-title-main { font-size: 15px !important; }
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode .ticket-header-subtitle-main { font-size: 9px !important; }
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode .ticket-header-right-meta h4 { font-size: 14px !important; }
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode .ticket-data-label { font-size: 8px !important; }
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode .ticket-data-value { font-size: 13px !important; }
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode .ticket-data-value.passenger-highlight { font-size: 15px !important; }
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode .ticket-stub-passenger-text { font-size: 13px !important; }
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode .ticket-barcode-graphic-wrapper { height: 26px !important; }
+        .boarding-pass-ticket-snapshot-zone.html2canvas-export-mode .ticket-scripture-footer-banner p { font-size: 9px !important; }
     </style>
 </head>
 <body>
@@ -847,8 +946,8 @@
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                         <div class="form-group">
-                            <label for="age">Age<span class="required">*</span></label>
-                            <input type="number" id="age" required placeholder="Your answer">
+                            <label for="age">Age (Max 25)<span class="required">*</span></label>
+                            <input type="number" id="age" required min="1" max="25" placeholder="Your answer">
                         </div>
                         <div class="form-group">
                             <label for="gender">Gender<span class="required">*</span></label>
@@ -880,8 +979,98 @@
                             <input type="text" id="zone" required placeholder="Your answer">
                         </div>
                         <div class="form-group">
-                            <label pour="community">Community<span class="required">*</span></label>
+                            <label for="community">Community<span class="required">*</span></label>
                             <input type="text" id="community" required placeholder="Your answer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Color Selection Section -->
+            <div class="form-section-card">
+                <div class="section-title-bar">
+                    <svg class="section-icon" viewBox="0 0 24 24"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12 4C13.5 4 15.5 5 16.5 6.5C17.5 8 18 10 17 12C16 14 14.5 15 13 16.5C11.5 18 10.5 19.5 9.5 19.5C8.5 19.5 7.5 19 6.5 17.5C5.5 16 5 14 5 12C5 7.58172 8.13401 4 12 4Z"/></svg>
+                    Boarding Pass Aesthetic
+                </div>
+                <div class="section-fields-body">
+                    <div class="form-group">
+                        <label>Choose your unique theme color:<span class="required">*</span></label>
+                        <div class="color-grid-container">
+                            <div class="color-group-title">Deep Regal Palette</div>
+                            
+                            <label>
+                                <input type="radio" name="passColor" value="#2A1B3D|#ffffff|#ffffff" required checked>
+                                <div class="color-swatch-option">
+                                    <div class="color-preview-circle" style="background-color: #2A1B3D;"></div>
+                                    <span class="color-swatch-text">Purple</span>
+                                </div>
+                            </label>
+                            <label>
+                                <input type="radio" name="passColor" value="#0B2545|#ffffff|#ffffff">
+                                <div class="color-swatch-option">
+                                    <div class="color-preview-circle" style="background-color: #0B2545;"></div>
+                                    <span class="color-swatch-text">Navy</span>
+                                </div>
+                            </label>
+                            <label>
+                                <input type="radio" name="passColor" value="#13351C|#ffffff|#ffffff">
+                                <div class="color-swatch-option">
+                                    <div class="color-preview-circle" style="background-color: #13351C;"></div>
+                                    <span class="color-swatch-text">Green</span>
+                                </div>
+                            </label>
+                            <label>
+                                <input type="radio" name="passColor" value="#581825|#ffffff|#ffffff">
+                                <div class="color-swatch-option">
+                                    <div class="color-preview-circle" style="background-color: #581825;"></div>
+                                    <span class="color-swatch-text">Burgundy</span>
+                                </div>
+                            </label>
+                            <label>
+                                <input type="radio" name="passColor" value="#2B1B17|#ffffff|#ffffff">
+                                <div class="color-swatch-option">
+                                    <div class="color-preview-circle" style="background-color: #2B1B17;"></div>
+                                    <span class="color-swatch-text">Espresso</span>
+                                </div>
+                            </label>
+
+                            <div class="color-group-title">Soft Pastels</div>
+                            
+                            <label>
+                                <input type="radio" name="passColor" value="#E3ECF5|#1e293b|#1e293b">
+                                <div class="color-swatch-option">
+                                    <div class="color-preview-circle" style="background-color: #E3ECF5;"></div>
+                                    <span class="color-swatch-text">Blue</span>
+                                </div>
+                            </label>
+                            <label>
+                                <input type="radio" name="passColor" value="#E2E7E1|#1e293b|#1e293b">
+                                <div class="color-swatch-option">
+                                    <div class="color-preview-circle" style="background-color: #E2E7E1;"></div>
+                                    <span class="color-swatch-text">Sage</span>
+                                </div>
+                            </label>
+                            <label>
+                                <input type="radio" name="passColor" value="#EFEFF0|#1e293b|#1e293b">
+                                <div class="color-swatch-option">
+                                    <div class="color-preview-circle" style="background-color: #EFEFF0;"></div>
+                                    <span class="color-swatch-text">Gray</span>
+                                </div>
+                            </label>
+                            <label>
+                                <input type="radio" name="passColor" value="#F7EBE8|#1e293b|#1e293b">
+                                <div class="color-swatch-option">
+                                    <div class="color-preview-circle" style="background-color: #F7EBE8;"></div>
+                                    <span class="color-swatch-text">Pink</span>
+                                </div>
+                            </label>
+                            <label>
+                                <input type="radio" name="passColor" value="#FCECE0|#1e293b|#1e293b">
+                                <div class="color-swatch-option">
+                                    <div class="color-preview-circle" style="background-color: #FCECE0;"></div>
+                                    <span class="color-swatch-text">Peach</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -1043,9 +1232,9 @@
 <div class="stamp-overlay-container" id="stampOverlay">
     <div class="passport-circular-stamp-frame">
         <svg class="stamp-curved-text-svg" viewBox="0 0 100 100">
-            <def>
+            <defs>
                 <path id="stampTextPath" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
-            </def>
+            </defs>
             <text><textPath href="#stampTextPath" startOffset="0%">GOD MADE YOU FEARFUL & WONDERFUL • JYG • </textPath></text>
         </svg>
         
@@ -1064,6 +1253,20 @@
 <script>
     const BACKEND_URL = "https://script.google.com/macros/s/AKfycbzX_e2waaiCNQzpaxc83x27FX3jpsPpiWk_Pmbdje7L4T5KJrgEAAXxLXivJiYFrVg-hQ/exec";
     const TARGET_WHATSAPP_LINK = "https://chat.whatsapp.com/FTZPRXGj2Z42GMnHRiFzvS";
+
+    // 10 Youth Focused Bible Verses
+    const BIBLE_VERSES = [
+        { passage: "TIMOTHY 4:12", verse: "Don't let anyone look down on you because you are young, but set an example for the believers in speech, in conduct, in love, in faith and in purity." },
+        { passage: "ECCLESIASTES 11:9", verse: "You who are young, be happy while you are young, and let your heart give you joy in the days of your youth." },
+        { passage: "JEREMIAH 29:11", verse: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future." },
+        { passage: "PSALM 119:9", verse: "How can a young person stay on the path of purity? By living according to your word." },
+        { passage: "PROVERBS 3:5-6", verse: "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight." },
+        { passage: "ISAIAH 40:30-31", verse: "Even youths grow tired and weary, and young men stumble and fall; but those who hope in the Lord will renew their strength." },
+        { passage: "PHILIPPIANS 4:13", verse: "I can do all this through him who gives me strength." },
+        { passage: "ROMANS 12:2", verse: "Do not conform to the pattern of this world, but be transformed by the renewing of your mind." },
+        { passage: "JOHN 4:4", verse: "You, dear children, are from God and have overcome them, because the one who is in you is greater than the one who is in the world." },
+        { passage: "JOSHUA 1:9", verse: "Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go." }
+    ];
 
     function startRegistration() {
         document.getElementById('introScreen').style.display = 'none';
@@ -1133,6 +1336,13 @@
         function startDrag(e) {
             if (!youthForm.checkValidity()) {
                 youthForm.reportValidity();
+                return;
+            }
+
+            // Explicit verification setup for the age validation logic
+            const ageVal = parseInt(document.getElementById('age').value, 10);
+            if (ageVal > 25) {
+                alert("Registration is restricted to individuals up to 25 years of age.");
                 return;
             }
 
@@ -1214,6 +1424,12 @@
         const parishCheck = document.querySelector('input[name="parishCheck"]:checked').value;
         const fileInput = document.getElementById('priestDocument');
 
+        // Extract styling metadata safely before submission framework cleanses form data
+        const colorConfig = document.querySelector('input[name="passColor"]:checked').value.split('|');
+        const mainColor = colorConfig[0];
+        const textColor = colorConfig[1];
+        const subTextColor = colorConfig[2];
+
         const sendData = (fileData = null, fileName = null, fileMimeType = null) => {
             let responseReceived = false;
             
@@ -1283,7 +1499,7 @@
                 }
 
                 stampOverlay.classList.remove('active');
-                renderSubmissionConfirmationScreen(cleanName);
+                renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
                 form.remove();
                 iframe.remove();
             }, 10000);
@@ -1302,7 +1518,7 @@
         }
     }
 
-    function renderSubmissionConfirmationScreen(cleanName) {
+    function renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor) {
         document.querySelector('.passport-form-container').innerHTML = `
             <div class="submission-confirmation-screen">
                 <div style="margin-bottom: 20px;">
@@ -1310,128 +1526,138 @@
                         <path d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z"/>
                     </svg>
                 </div>
-                <h2>Welcome Abord!</h2>
+                <h2>Welcome Aboard!</h2>
                 <p>Hi ${cleanName}, your flight profile data has been recorded by the new core team successfully.</p>
                 
                 <div class="compulsory-warning-box">
                     <p><strong>Important Note:</strong> You must download and share the boarding pass on the next screen. Do not refresh or exit the page until you have completed this step.</p>
                 </div>
 
-                <button type="button" class="btn-claim" onclick="renderSuccessScreen('${cleanName}')">Claim Boarding Pass</button>
+                <button type="button" class="btn-claim" onclick="renderSuccessScreen('${cleanName}', '${mainColor}', '${textColor}', '${subTextColor}')">Claim Boarding Pass</button>
             </div>
         `;
         window.scrollTo(0, 0);
     }
 
-    function renderSuccessScreen(cleanName) {
+    function renderSuccessScreen(cleanName, mainColor, textColor, subTextColor) {
+        // Randomly select one bible verse layout item from the core array parameters
+        const selectedVerseObj = BIBLE_VERSES[Math.floor(Math.random() * BIBLE_VERSES.length)];
+
         document.querySelector('.passport-form-container').innerHTML = `
             <div class="success-screen">
                 
-                <!-- Restored Native Card Canvas target element -->
-                <div id="captureTicketZone" class="boarding-pass-ticket-snapshot-zone">
-                    
-                    <!-- Header Strip segment -->
-                    <div class="ticket-header-strip">
-                        <div class="ticket-header-left">
-                            <svg class="ticket-header-plane-icon" viewBox="0 0 24 24">
-                                <path d="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z"/>
-                            </svg>
-                            <div>
-                                <h3 class="ticket-header-title-main">Judean Youth Group</h3>
-                                <p class="ticket-header-subtitle-main">Passenger Ticket for Year 2026 - 2027</p>
-                            </div>
-                        </div>
-                        <div class="ticket-header-right-meta">
-                            <h4>BOARDING PASS</h4>
-                            <p>Super Exclusive Class</p>
-                        </div>
-                    </div>
+                <!-- Fluid viewport wrapper container setup -->
+                <div class="ticket-scale-wrapper">
+                    <!-- Mobile-First Standard Frame -->
+                    <div id="captureTicketZone" class="boarding-pass-ticket-snapshot-zone">
 
-                    <!-- Main Container Layout holding clean metadata content fields -->
-                    <div class="ticket-body-grid-container">
-                        
-                        <!-- Left Main Panel -->
-                        <div>
-                            <div class="ticket-data-box">
-                                <div class="ticket-data-label">Passenger</div>
-                                <div class="ticket-data-value passenger-highlight">${cleanName}</div>
+                        <!-- Left & Right Laurel Decors for Aesthetic Depth from Reference Image -->
+                        <svg class="ticket-laurel-accent laurel-bottom-left" viewBox="0 0 24 24"><path fill="${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor}" d="M6.16 19.34C4 17.18 3.55 14 5 11.66C5.57 12.39 6.35 13 7.33 13.31C6.27 11 6.84 8.24 8.61 6.47C8.91 7.6 9.61 8.57 10.5 9.21C9.21 6.89 9.94 4.04 11.97 2.03C11.95 3.32 12.44 4.54 13.25 5.46C12.42 3.1 13.34.4 15.5 0C15.11 1.25 15.25 2.61 15.86 3.74C15.54 1.35 16.78-.93 19 1.1C18.25 2.11 18.06 3.5 18.42 4.74C18.66 2.34 20.35.5 22.5 2.2C21.41 3 20.9 4.34 21.03 5.67C21.72 3.31 24 1.95 24 4.5C22.61 5 21.72 6.13 21.57 7.55C22.67 5.39 25 4.7 24 7.25C22.75 7.42 21.76 8.33 21.43 9.56C22.84 7.7 25 7.8 23.5 10.1C22.25 10 21.27 10.66 20.79 11.75C22.45 10.27 24.5 11.1 22.5 13C21.31 12.5 20.3 13 19.67 14C21.46 13 23.15 14.5 21 16C19.96 15.14 18.81 15.31 18 16.14C19.82 15.71 21.2 17.5 19 18.65C18.11 17.5 16.92 17.38 16 18.1C17.77 18.27 18.8 20.5 16.5 21.16C15.88 19.78 14.65 19.43 13.68 20.03C15.34 20.73 16 23.12 13.73 23.23C13.43 21.67 12.19 21.25 11.18 21.75C12.57 22.87 12.75 25 10.75 24.5C10.87 22.82 9.77 22.25 8.79 22.64C9.82 24 9.47 26 7.75 25C8.25 23.27 7.37 22.54 6.44 22.82C7 24.32 6.14 26 4.75 24.5C5.58 22.82 5 21.84 4.14 22C4.19 23.75 2.87 25 2 23.2C3.17 21.71 3 20.62 2.15 20.55C1.82 22.21.1 22.5 0 20.5C1.61 19.26 1.83 18.16 1.15 17.84C.47 19.34-1 19 0 17.25C1.78 16.4 2.31 15.4 1.81 14.86C.76 16.14-1 15.25 0 13.75C1.94 13.39 2.72 12.5 2.41 11.83C1.12 12.87-.5 11.5 1 10.25C3.06 10.35 4.05 9.62 4 8.84C2.5 9.5 1.1 8 3 7C5.11 7.33 6.27 6.83 6.44 6C5.11 6.33 4.05 4.84 5.75 4.16C7.8 4.77 8.94 4.54 9.4 3.79C8.25 3.79 7.72 2.16 9.35 1.76C11 2.65 12.3 2.76 13.11 2.2C12.11 1.77 12 0 13.5 0C14.7 1.1 16 1.5 17 1.2" /></svg>
+                        <svg class="ticket-laurel-accent laurel-bottom-right" viewBox="0 0 24 24"><path fill="${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor}" d="M6.16 19.34C4 17.18 3.55 14 5 11.66C5.57 12.39 6.35 13 7.33 13.31C6.27 11 6.84 8.24 8.61 6.47C8.91 7.6 9.61 8.57 10.5 9.21C9.21 6.89 9.94 4.04 11.97 2.03C11.95 3.32 12.44 4.54 13.25 5.46C12.42 3.1 13.34.4 15.5 0C15.11 1.25 15.25 2.61 15.86 3.74C15.54 1.35 16.78-.93 19 1.1C18.25 2.11 18.06 3.5 18.42 4.74C18.66 2.34 20.35.5 22.5 2.2C21.41 3 20.9 4.34 21.03 5.67C21.72 3.31 24 1.95 24 4.5C22.61 5 21.72 6.13 21.57 7.55C22.67 5.39 25 4.7 24 7.25C22.75 7.42 21.76 8.33 21.43 9.56C22.84 7.7 25 7.8 23.5 10.1C22.25 10 21.27 10.66 20.79 11.75C22.45 10.27 24.5 11.1 22.5 13C21.31 12.5 20.3 13 19.67 14C21.46 13 23.15 14.5 21 16C19.96 15.14 18.81 15.31 18 16.14C19.82 15.71 21.2 17.5 19 18.65C18.11 17.5 16.92 17.38 16 18.1C17.77 18.27 18.8 20.5 16.5 21.16C15.88 19.78 14.65 19.43 13.68 20.03C15.34 20.73 16 23.12 13.73 23.23C13.43 21.67 12.19 21.25 11.18 21.75C12.57 22.87 12.75 25 10.75 24.5C10.87 22.82 9.77 22.25 8.79 22.64C9.82 24 9.47 26 7.75 25C8.25 23.27 7.37 22.54 6.44 22.82C7 24.32 6.14 26 4.75 24.5C5.58 22.82 5 21.84 4.14 22C4.19 23.75 2.87 25 2 23.2C3.17 21.71 3 20.62 2.15 20.55C1.82 22.21.1 22.5 0 20.5C1.61 19.26 1.83 18.16 1.15 17.84C.47 19.34-1 19 0 17.25C1.78 16.4 2.31 15.4 1.81 14.86C.76 16.14-1 15.25 0 13.75C1.94 13.39 2.72 12.5 2.41 11.83C1.12 12.87-.5 11.5 1 10.25C3.06 10.35 4.05 9.62 4 8.84C2.5 9.5 1.1 8 3 7C5.11 7.33 6.27 6.83 6.44 6C5.11 6.33 4.05 4.84 5.75 4.16C7.8 4.77 8.94 4.54 9.4 3.79C8.25 3.79 7.72 2.16 9.35 1.76C11 2.65 12.3 2.76 13.11 2.2C12.11 1.77 12 0 13.5 0C14.7 1.1 16 1.5 17 1.2" /></svg>
+
+                        <!-- Header Strip segment dynamically colored -->
+                        <div class="ticket-header-strip" style="background-color: ${mainColor}; color: ${textColor};">
+                            <div class="ticket-header-left">
+                                <svg class="ticket-header-plane-icon" viewBox="0 0 24 24" style="fill: ${mainColor.toLowerCase() === '#ffffff' || mainColor.startsWith('#E') || mainColor.startsWith('#F') ? subTextColor : '#facc15'} !important;">
+                                    <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L14 19v-5.5l8 2.5z"/>
+                                </svg>
+                                <div>
+                                    <h3 class="ticket-header-title-main" style="color: ${textColor} !important;">Judean Youth Group</h3>
+                                    <p class="ticket-header-subtitle-main" style="color: ${textColor} !important; opacity: 0.85;">Passenger Ticket for Year 2026 - 2027</p>
+                                </div>
                             </div>
+                            <div class="ticket-header-right-meta" style="border-left-color: rgba(255,255,255,0.25);">
+                                <h4 style="color: ${textColor} !important;">BOARDING PASS</h4>
+                                <p style="color: ${textColor} !important; opacity: 0.75;">Super Exclusive Class</p>
+                            </div>
+                        </div>
+
+                        <!-- Main Container Layout holding clean metadata content fields -->
+                        <div class="ticket-body-grid-container">
                             
-                            <div class="ticket-side-flex-row">
+                            <!-- Left Main Panel -->
+                            <div>
                                 <div class="ticket-data-box">
-                                    <div class="ticket-data-label">Flight</div>
-                                    <div class="ticket-data-value" style="color: #134074;">JYG 2627</div>
+                                    <div class="ticket-data-label">Passenger</div>
+                                    <div class="ticket-data-value passenger-highlight" style="color: ${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor};">${cleanName}</div>
+                                </div>
+                                
+                                <div class="ticket-side-flex-row">
+                                    <div class="ticket-data-box">
+                                        <div class="ticket-data-label">Flight</div>
+                                        <div class="ticket-data-value" style="color: ${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor};">JYG 2627</div>
+                                    </div>
+                                    <div class="ticket-data-box">
+                                        <div class="ticket-data-label">From</div>
+                                        <div class="ticket-data-value" style="color: var(--text-dark);">JERIMERI</div>
+                                    </div>
+                                </div>
+
+                                <div class="ticket-side-flex-row">
+                                    <div class="ticket-data-box">
+                                        <div class="ticket-data-label">Passage</div>
+                                        <div class="ticket-data-value" style="color: ${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor};">${selectedVerseObj.passage}</div>
+                                    </div>
+                                    <div class="ticket-data-box">
+                                        <div class="ticket-data-label">To</div>
+                                        <div class="ticket-data-value" style="color:#b91c1c;">ETERNAL LIFE</div>
+                                    </div>
+                                </div>
+
+                                <!-- Barcode asset block -->
+                                <div class="ticket-barcode-graphic-wrapper">
+                                    <div class="barcode-line-element thick" style="background-color: #1e293b;"></div>
+                                    <div class="barcode-line-element thin" style="background-color: #1e293b;"></div>
+                                    <div class="barcode-line-element" style="background-color: #1e293b;"></div>
+                                    <div class="barcode-line-element medium" style="background-color: #1e293b;"></div>
+                                    <div class="barcode-line-element thin" style="background-color: #1e293b;"></div>
+                                    <div class="barcode-line-element thick" style="background-color: #1e293b;"></div>
+                                    <div class="barcode-line-element" style="background-color: #1e293b;"></div>
+                                    <div class="barcode-line-element thin" style="background-color: #1e293b;"></div>
+                                    <div class="barcode-line-element thick" style="background-color: #1e293b;"></div>
+                                    <div class="barcode-line-element medium" style="background-color: #1e293b;"></div>
+                                    <div class="barcode-line-element" style="background-color: #1e293b;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Ticket Tear Dotted Divider line column -->
+                            <div class="ticket-stub-divider-line"></div>
+
+                            <!-- Right Stub Panel -->
+                            <div>
+                                <div class="ticket-data-box">
+                                    <div class="ticket-data-label">Passenger</div>
+                                    <div class="ticket-stub-passenger-text" style="color: ${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor};">${cleanName}</div>
                                 </div>
                                 <div class="ticket-data-box">
                                     <div class="ticket-data-label">From</div>
-                                    <div class="ticket-data-value">JERIMERI</div>
-                                </div>
-                            </div>
-
-                            <div class="ticket-side-flex-row">
-                                <div class="ticket-data-box">
-                                    <div class="ticket-data-label">Passage</div>
-                                    <div class="ticket-data-value" style="font-size:10px;">PHILIPPIANS 3:20</div>
+                                    <div class="ticket-data-value" style="color: var(--text-dark);">JERIMERI</div>
                                 </div>
                                 <div class="ticket-data-box">
                                     <div class="ticket-data-label">To</div>
                                     <div class="ticket-data-value" style="color:#b91c1c;">ETERNAL LIFE</div>
                                 </div>
+                                
+                                <div class="ticket-side-flex-row">
+                                    <div class="ticket-data-box">
+                                        <div class="ticket-data-label">Boarding Time</div>
+                                        <div class="ticket-data-value" style="color:#b91c1c;">BE ALERT</div>
+                                    </div>
+                                    <div class="ticket-data-box">
+                                        <div class="ticket-data-label">Flight</div>
+                                        <div class="ticket-data-value" style="color: var(--text-dark);">JYG2627</div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Restored native crisp classic barcode element asset block -->
-                            <div class="ticket-barcode-graphic-wrapper">
-                                <div class="barcode-line-element thick"></div>
-                                <div class="barcode-line-element thin"></div>
-                                <div class="barcode-line-element"></div>
-                                <div class="barcode-line-element medium"></div>
-                                <div class="barcode-line-element thin"></div>
-                                <div class="barcode-line-element thick"></div>
-                                <div class="barcode-line-element"></div>
-                                <div class="barcode-line-element thin"></div>
-                                <div class="barcode-line-element thick"></div>
-                                <div class="barcode-line-element medium"></div>
-                                <div class="barcode-line-element"></div>
-                            </div>
                         </div>
 
-                        <!-- Ticket Tear Dotted Divider line column -->
-                        <div class="ticket-stub-divider-line"></div>
-
-                        <!-- Right Stub Panel -->
-                        <div>
-                            <div class="ticket-data-box">
-                                <div class="ticket-data-label">Passenger</div>
-                                <div class="ticket-data-value ticket-stub-passenger-text">${cleanName}</div>
-                            </div>
-                            <div class="ticket-data-box">
-                                <div class="ticket-data-label">From</div>
-                                <div class="ticket-data-value" style="font-size:11px;">JERIMERI</div>
-                            </div>
-                            <div class="ticket-data-box">
-                                <div class="ticket-data-label">To</div>
-                                <div class="ticket-data-value" style="font-size:11px; color:#b91c1c;">ETERNAL LIFE</div>
-                            </div>
-                            
-                            <div class="ticket-side-flex-row">
-                                <div class="ticket-data-box">
-                                    <div class="ticket-data-label">Boarding Time</div>
-                                    <div class="ticket-data-value" style="font-size:9px; color:#b91c1c;">BE ALERT</div>
-                                </div>
-                                <div class="ticket-data-box">
-                                    <div class="ticket-data-label">Flight</div>
-                                    <div class="ticket-data-value" style="font-size:9px;">JYG2627</div>
-                                </div>
-                            </div>
+                        <!-- Base Scripture Panel filled with randomized verse content text -->
+                        <div class="ticket-scripture-footer-banner" style="background-color: ${mainColor}; color: ${textColor};">
+                            <p style="color: ${textColor} !important;">"${selectedVerseObj.verse}"</p>
                         </div>
 
                     </div>
-
-                    <!-- Base Scripture Panel -->
-                    <div class="ticket-scripture-footer-banner">
-                        <p>BUT OUR CITIZENSHIP IS IN HEAVEN. AND WE EAGERLY AWAIT A SAVIOR FROM THERE, THE LORD JESUS CHRIST</p>
-                    </div>
-
                 </div>
 
                 <!-- Actions Row Section -->
@@ -1442,7 +1668,7 @@
                         <p>⚠️ <strong>Notice:</strong> It is mandatory to download and share this boarding pass to the group. Please do not refresh this window until completed.</p>
                     </div>
 
-                    <button type="button" class="btn-whatsapp-share" onclick="handleImageShareSequence('${cleanName}')">
+                    <button type="button" class="btn-whatsapp-share" onclick="handleImageShareSequence('${cleanName}')" style="background-color: ${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor}; color: #ffffff;">
                         <svg class="whatsapp-icon-svg" viewBox="0 0 24 24">
                             <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
                         </svg>
@@ -1455,15 +1681,20 @@
         window.scrollTo(0, 0); 
     }
 
-    // Capture functionality maps to native layouts cleanly without clipping boundaries
+    // Capture functionality using a standalone cloned snapshot method to safely preserve landscape printing aspect ratios
     function handleImageShareSequence(passengerName) {
         const targetElement = document.getElementById('captureTicketZone');
-        
+
         html2canvas(targetElement, {
-            scale: 3, 
+            scale: 3, // Premium print file fidelity multiplier
             useCORS: true,
+            allowTaint: true,
             logging: false,
-            backgroundColor: "#ffffff"
+            backgroundColor: "#ffffff", 
+            width: targetElement.offsetWidth,
+            height: targetElement.offsetHeight,
+            scrollX: 0,
+            scrollY: -window.scrollY
         }).then(canvas => {
             const dataUrl = canvas.toDataURL('image/png');
             

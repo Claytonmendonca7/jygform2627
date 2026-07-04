@@ -696,7 +696,7 @@
         }
 
         /* ==========================================================================
-           FIXED ASPECT-RATIO LANDSCAPE BOARDING PASS MODIFICATIONS
+           FIXED ASPECT-RATIO 16:9 HEIGHT OPTIMIZATION RULES
            ========================================================================== */
         .success-screen {
             background-color: #ffffff;
@@ -704,7 +704,6 @@
             padding: 16px 12px;
         }
         
-        /* Fixed Aspect Ratio Container Fitment Optimization Blueprint */
         .ticket-scale-wrapper {
             width: 100%;
             position: relative;
@@ -714,7 +713,7 @@
             align-items: center;
         }
 
-        /* Enforce native 16:9 box container proportions safely */
+        /* Enforce native exact 16:9 block proportions */
         .ticket-scaler-internal-box {
             width: 100%;
             max-width: 640px;
@@ -722,7 +721,7 @@
             position: relative;
         }
 
-        /* Standard static render baseline resolution structure */
+        /* Standard baseline structural blueprint resolution setup */
         .boarding-pass-ticket-snapshot-zone {
             background-color: #ffffff;
             border: 1px solid var(--border);
@@ -741,7 +740,7 @@
             z-index: 2;
         }
 
-        /* Decorative Floral Laurels Frame Layout */
+        /* Decorative Floral Laurels Framework */
         .ticket-laurel-accent {
             position: absolute;
             width: 65px;
@@ -750,20 +749,20 @@
             pointer-events: none;
             z-index: 1;
         }
-        .laurel-bottom-left { bottom: 35px; left: 12px; transform: rotate(15deg); }
-        .laurel-bottom-right { bottom: 35px; right: 12px; transform: scaleX(-1) rotate(15deg); }
+        .laurel-bottom-left { bottom: 45px; left: 12px; transform: rotate(15deg); }
+        .laurel-bottom-right { bottom: 45px; right: 12px; transform: scaleX(-1) rotate(15deg); }
 
-        /* Top Header Segment Layout */
+        /* Proportional Height Distribution: Header (15%) */
         .ticket-header-strip {
             background-color: #0b2545;
             color: #ffffff;
-            padding: 12px 16px;
+            padding: 0 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: relative;
             z-index: 3;
-            height: 56px;
+            height: 15%;
         }
         .ticket-header-strip * { color: #ffffff !important; }
         .ticket-header-left { display: flex; align-items: center; gap: 10px; }
@@ -774,18 +773,17 @@
         .ticket-header-right-meta h4 { margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.5px; }
         .ticket-header-right-meta p { margin: 2px 0 0 0; font-size: 9px; opacity: 0.7; text-transform: uppercase; font-weight: 600; }
 
-        /* Uniform Core Data Grid Row Segment Structure */
+        /* Proportional Height Distribution: Middle Content Block (70%) */
         .ticket-body-grid-container {
             display: grid;
             grid-template-columns: 1.4fr 1px 1fr;
-            padding: 14px 16px;
+            padding: 16px 20px;
             background-color: #ffffff;
-            gap: 16px;
-            align-items: start;
+            gap: 20px;
+            align-items: center;
             position: relative;
             z-index: 2;
-            flex: 1;
-            height: calc(360px - 56px - 40px);
+            height: 70%;
         }
         
         .ticket-stub-divider-line {
@@ -798,10 +796,10 @@
             align-self: stretch;
         }
 
-        /* Sizing safeguards to enforce clean non-overlapping alignments */
-        .ticket-data-box { margin-bottom: 8px; min-width: 0; }
+        /* Spacing metrics eliminating extra white spaces */
+        .ticket-data-box { margin-bottom: 6px; min-width: 0; }
         .ticket-data-box:last-child { margin-bottom: 0; }
-        .ticket-data-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.3px; }
+        .ticket-data-label { font-size: 9.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.3px; }
         .ticket-data-value { font-size: 14px; font-weight: 800; color: var(--passport-blue); text-transform: uppercase; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         .ticket-data-value.passenger-highlight { 
@@ -820,31 +818,31 @@
             margin-top: 1px;
         }
 
-        .ticket-side-flex-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; min-width: 0; }
+        .ticket-side-flex-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-width: 0; }
 
-        /* Precise Scaled Barcode Element Block Viewport Grid */
-        .ticket-barcode-graphic-wrapper { display: flex; align-items: center; margin-top: 10px; gap: 1px; justify-content: flex-start; overflow: hidden; height: 26px; }
+        /* Barcode Asset */
+        .ticket-barcode-graphic-wrapper { display: flex; align-items: center; margin-top: 8px; gap: 1px; justify-content: flex-start; overflow: hidden; height: 26px; }
         .barcode-line-element { height: 100%; background-color: #1e293b; width: 1px; flex-shrink: 0; }
         .barcode-line-element.thick { width: 4px; }
         .barcode-line-element.medium { width: 2px; }
         .barcode-line-element.thin { width: 1px; }
 
-        /* Bottom Scriptural Footing Panel View Layout */
+        /* Proportional Height Distribution: Footer Banner (15%) */
         .ticket-scripture-footer-banner {
             background-color: #134074;
             color: #ffffff;
-            padding: 8px 16px;
+            padding: 0 16px;
             text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 40px;
+            height: 15%;
             position: relative;
             z-index: 3;
         }
         .ticket-scripture-footer-banner p {
             margin: 0;
-            font-size: 9.5px;
+            font-size: 10px;
             font-weight: 700;
             line-height: 1.3;
             letter-spacing: 0.3px;
@@ -852,7 +850,7 @@
             color: #ffffff !important;
         }
 
-        /* Share Area Controls Row Layout Framework */
+        /* Actions Container Area Row */
         .share-action-container-box {
             padding: 24px 16px;
             background-color: #f8fafc;

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Judean Youth Group 2026</title>
-    <!-- Include html2canvas to dynamically convert the boarding pass container into a shareable image -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
@@ -722,7 +721,7 @@
             position: relative;
         }
 
-        /* Standard baseline structural blueprint resolution setup */
+        /* Fixed dimensions to enforce strict 16:9 rendering bounds */
         .boarding-pass-ticket-snapshot-zone {
             background-color: #ffffff;
             border: 1px solid var(--border);
@@ -753,7 +752,7 @@
         .laurel-bottom-left { bottom: 60px; left: 12px; transform: rotate(15deg); }
         .laurel-bottom-right { bottom: 60px; right: 12px; transform: scaleX(-1) rotate(15deg); }
 
-        /* Proportional Height Distribution: Header (15%) */
+        /* Proportional Height Distribution: Header (56px) */
         .ticket-header-strip {
             background-color: #0b2545;
             color: #ffffff;
@@ -774,7 +773,7 @@
         .ticket-header-right-meta h4 { margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.5px; }
         .ticket-header-right-meta p { margin: 2px 0 0 0; font-size: 9px; opacity: 0.7; text-transform: uppercase; font-weight: 600; }
 
-        /* Proportional Height Distribution: Middle Content Block - Expanded to eliminate empty space */
+        /* Enforce absolute height sizing calculation matching total outer height dimensions */
         .ticket-body-grid-container {
             display: grid;
             grid-template-columns: 1.4fr 1px 1fr;
@@ -784,7 +783,8 @@
             align-items: stretch;
             position: relative;
             z-index: 2;
-            height: calc(360px - 56px - 48px);
+            height: 256px; /* Exactly 360px minus 56px header minus 48px footer */
+            box-sizing: border-box;
         }
         
         .ticket-stub-divider-line {
@@ -834,7 +834,7 @@
         .barcode-line-element.medium { width: 2px; }
         .barcode-line-element.thin { width: 1px; }
 
-        /* Proportional Height Distribution: Expanded Footer Banner (Height changed from 15% to 48px) */
+        /* Proportional Height Distribution: Explicit 48px matching calculation bounds */
         .ticket-scripture-footer-banner {
             background-color: #134074;
             color: #ffffff;
@@ -846,6 +846,7 @@
             height: 48px;
             position: relative;
             z-index: 3;
+            box-sizing: border-box;
         }
         .ticket-scripture-footer-banner p {
             margin: 0;
@@ -903,7 +904,6 @@
 
 <div class="passport-form-container">
     
-    <!-- Screen 1: Light-Themed Passport Cover Style Intro Screen -->
     <div class="intro-screen" id="introScreen">
         <div class="bg-stamp-decoration stamp-top-left">Adventure<br>Awaits</div>
         <div class="bg-stamp-decoration stamp-mid-right">Holy<br>Journey</div>
@@ -928,7 +928,6 @@
         <button type="button" class="btn-start" onclick="startRegistration()">Open Passport</button>
     </div>
 
-    <!-- Screen 2: The Main Form Formats -->
     <div class="form-screen" id="formScreen">
         <div class="visual-banner-header">
             <img src="banner.svg" alt="Journey with Christ Banner" style="width: 100%; max-width: 440px; height: auto; display: block; margin: 0 auto;">
@@ -936,7 +935,6 @@
 
         <form class="form-body" id="youthForm">
             
-            <!-- Section 1 -->
             <div class="form-section-card">
                 <div class="section-title-bar">
                     <svg class="section-icon" viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>
@@ -990,7 +988,6 @@
                 </div>
             </div>
 
-            <!-- New Color Selection Section -->
             <div class="form-section-card">
                 <div class="section-title-bar">
                     <svg class="section-icon" viewBox="0 0 24 24"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12 4C13.5 4 15.5 5 16.5 6.5C17.5 8 18 10 17 12C16 14 14.5 15 13 16.5C11.5 18 10.5 19.5 9.5 19.5C8.5 19.5 7.5 19 6.5 17.5C5.5 16 5 14 5 12C5 7.58172 8.13401 4 12 4Z"/></svg>
@@ -1080,7 +1077,6 @@
                 </div>
             </div>
 
-            <!-- Section 2 -->
             <div class="form-section-card">
                 <div class="section-title-bar">
                     <svg class="section-icon" viewBox="0 0 24 24"><path d="M10,2H14A2,2 0 0,1 16,4V6H20A2,2 0 0,1 22,8V19A2,2 0 0,1 20,21H4A2,2 0 0,1 2,19V8A2,2 0 0,1 4,6H8V4A2,2 0 0,1 10,2M14,6V4H10V6H14M4,8V19H20V8H4M12,10A3,3 0 0,1 15,13A3,3 0 0,1 12,16A3,3 0 0,1 9,13A3,3 0 0,1 12,10Z"/></svg>
@@ -1113,7 +1109,6 @@
                 </div>
             </div>
 
-            <!-- Section 3 -->
             <div class="form-section-card">
                 <div class="section-title-bar">
                     <svg class="section-icon" viewBox="0 0 24 24"><path d="M16 13c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm-4-7c.28 0 .55-.04.81-.11.45-.12.83-.41 1.05-.79.43-.75.24-1.7-.42-2.22l-2.91-2.27c-.31-.24-.7-.37-1.11-.37h-3.4C4.34 6.24 3 7.58 3 9.24v2.01c0 .41.34.75.75.75h1.51c.36 0 .67-.25.73-.61l.24-1.44C6.38 9.38 6.9 9 7.49 9h2.15l1.62 1.26c.22.17.48.27.74.27v1.47zM20.62 4.1c-.22-.16-.48-.26-.74-.26h-4.21c-.41 0-.75.34-.75.75s.34.75.75.75h3.45l2.42 1.88c.66.51.85 1.47.42 2.22-.21.38-.6.67-1.05.79-.26.07-.53.11-.81.11v1.47c.26 0 .52-.1.74-.27l4.01-3.13c.66-.52.85-1.47.41-2.22-.23-.4-.63-.69-1.04-.81z"/></svg>
@@ -1153,7 +1148,6 @@
                 </div>
             </div>
 
-            <!-- Section 4 -->
             <div class="form-section-card">
                 <div class="section-title-bar">
                     <svg class="section-icon" viewBox="0 0 24 24"><path d="M14.3,21.7C13.9,21.9 13.5,22 13,22C11.2,22 9.5,21.1 8.5,19.6L3.1,10.3C2.4,9.1 2.4,7.6 3.1,6.4L3.6,5.5C4.3,4.3 5.7,3.6 7.1,3.6C7.6,3.6 8.1,3.7 8.6,3.9L13.9,6.5C14.8,7 15.4,7.9 15.5,9H20.6C21.4,9 22,9.6 22,10.4V11.2C22,12 21.4,12.6 20.6,12.6H14.8L17.8,17.8C18.5,19 18.5,20.5 17.8,21.7L14.3,21.7Z"/></svg>
@@ -1196,7 +1190,6 @@
                 </div>
             </div>
 
-            <!-- Section 5 -->
             <div class="form-section-card">
                 <div class="section-title-bar">
                     <svg class="section-icon" viewBox="0 0 24 24"><path d="M20.59,6.58L15.42,1.41C15.05,1.04 14.54,0.83 14,0.83H6A2,2 0 0,0 4,2.83V20.83A2,2 0 0,0 6,22.83H18A2,2 0 0,0 20,20.83V8.25C20,7.71 19.79,7.2 19.41,6.83L20.59,6.58M15,3.25L17.58,5.83H15V3.25M6,20.83V2.83H13V7.83H18V20.83H6M8,12.83H16V14.83H8V12.83M8,16.83H13V18.83H8V16.83Z"/></svg>
@@ -1210,7 +1203,6 @@
                 </div>
             </div>
 
-            <!-- Slide to Submit Action Component Layout -->
             <div class="slider-submit-wrapper" id="slideWrapper">
                 <div class="slider-bg-progress" id="slideProgress"></div>
                 <div class="slider-text-guide" id="slideText">Slide to Submit</div>
@@ -1232,7 +1224,6 @@
     </div>
 </div>
 
-<!-- Interstitial Circular Visa Verification Stamp Overlay -->
 <div class="stamp-overlay-container" id="stampOverlay">
     <div class="passport-circular-stamp-frame">
         <svg class="stamp-curved-text-svg" viewBox="0 0 100 100">
@@ -1521,18 +1512,14 @@
         document.querySelector('.passport-form-container').innerHTML = `
             <div class="success-screen">
                 
-                <!-- Fluid viewport wrapper container setup -->
                 <div class="ticket-scale-wrapper">
-                    <!-- Scaler framework ensuring explicit 16:9 box containment logic across variable dynamic screens -->
                     <div class="ticket-scaler-internal-box" id="scalerBox">
                         
                         <div id="captureTicketZone" class="boarding-pass-ticket-snapshot-zone">
 
-                            <!-- Left & Right Laurel Decors for Aesthetic Depth from Reference Image -->
                             <svg class="ticket-laurel-accent laurel-bottom-left" viewBox="0 0 24 24"><path fill="${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor}" d="M6.16 19.34C4 17.18 3.55 14 5 11.66C5.57 12.39 6.35 13 7.33 13.31C6.27 11 6.84 8.24 8.61 6.47C8.91 7.6 9.61 8.57 10.5 9.21C9.21 6.89 9.94 4.04 11.97 2.03C11.95 3.32 12.44 4.54 13.25 5.46C12.42 3.1 13.34.4 15.5 0C15.11 1.25 15.25 2.61 15.86 3.74C15.54 1.35 16.78-.93 19 1.1C18.25 2.11 18.06 3.5 18.42 4.74C18.66 2.34 20.35.5 22.5 2.2C21.41 3 20.9 4.34 21.03 5.67C21.72 3.31 24 1.95 24 4.5C22.61 5 21.72 6.13 21.57 7.55C22.67 5.39 25 4.7 24 7.25C22.75 7.42 21.76 8.33 21.43 9.56C22.84 7.7 25 7.8 23.5 10.1C22.25 10 21.27 10.66 20.79 11.75C22.45 10.27 24.5 11.1 22.5 13C21.31 12.5 20.3 13 19.67 14C21.46 13 23.15 14.5 21 16C19.96 15.14 18.81 15.31 18 16.14C19.82 15.71 21.2 17.5 19 18.65C18.11 17.5 16.92 17.38 16 18.1C17.77 18.27 18.8 20.5 16.5 21.16C15.88 19.78 14.65 19.43 13.68 20.03C15.34 20.73 16 23.12 13.73 23.23C13.43 21.67 12.19 21.25 11.18 21.75C12.57 22.87 12.75 25 10.75 24.5C10.87 22.82 9.77 22.25 8.79 22.64C9.82 24 9.47 26 7.75 25C8.25 23.27 7.37 22.54 6.44 22.82C7 24.32 6.14 26 4.75 24.5C5.58 22.82 5 21.84 4.14 22C4.19 23.75 2.87 25 2 23.2C3.17 21.71 3 20.62 2.15 20.55C1.82 22.21.1 22.5 0 20.5C1.61 19.26 1.83 18.16 1.15 17.84C.47 19.34-1 19 0 17.25C1.78 16.4 2.31 15.4 1.81 14.86C.76 16.14-1 15.25 0 13.75C1.94 13.39 2.72 12.5 2.41 11.83C1.12 12.87-.5 11.5 1 10.25C3.06 10.35 4.05 9.62 4 8.84C2.5 9.5 1.1 8 3 7C5.11 7.33 6.27 6.83 6.44 6C5.11 6.33 4.05 4.84 5.75 4.16C7.8 4.77 8.94 4.54 9.4 3.79C8.25 3.79 7.72 2.16 9.35 1.76C11 2.65 12.3 2.76 13.11 2.2C12.11 1.77 12 0 13.5 0C14.7 1.1 16 1.5 17 1.2" /></svg>
                             <svg class="ticket-laurel-accent laurel-bottom-right" viewBox="0 0 24 24"><path fill="${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor}" d="M6.16 19.34C4 17.18 3.55 14 5 11.66C5.57 12.39 6.35 13 7.33 13.31C6.27 11 6.84 8.24 8.61 6.47C8.91 7.6 9.61 8.57 10.5 9.21C9.21 6.89 9.94 4.04 11.97 2.03C11.95 3.32 12.44 4.54 13.25 5.46C12.42 3.1 13.34.4 15.5 0C15.11 1.25 15.25 2.61 15.86 3.74C15.54 1.35 16.78-.93 19 1.1C18.25 2.11 18.06 3.5 18.42 4.74C18.66 2.34 20.35.5 22.5 2.2C21.41 3 20.9 4.34 21.03 5.67C21.72 3.31 24 1.95 24 4.5C22.61 5 21.72 6.13 21.57 7.55C22.67 5.39 25 4.7 24 7.25C22.75 7.42 21.76 8.33 21.43 9.56C22.84 7.7 25 7.8 23.5 10.1C22.25 10 21.27 10.66 20.79 11.75C22.45 10.27 24.5 11.1 22.5 13C21.31 12.5 20.3 13 19.67 14C21.46 13 23.15 14.5 21 16C19.96 15.14 18.81 15.31 18 16.14C19.82 15.71 21.2 17.5 19 18.65C18.11 17.5 16.92 17.38 16 18.1C17.77 18.27 18.8 20.5 16.5 21.16C15.88 19.78 14.65 19.43 13.68 20.03C15.34 20.73 16 23.12 13.73 23.23C13.43 21.67 12.19 21.25 11.18 21.75C12.57 22.87 12.75 25 10.75 24.5C10.87 22.82 9.77 22.25 8.79 22.64C9.82 24 9.47 26 7.75 25C8.25 23.27 7.37 22.54 6.44 22.82C7 24.32 6.14 26 4.75 24.5C5.58 22.82 5 21.84 4.14 22C4.19 23.75 2.87 25 2 23.2C3.17 21.71 3 20.62 2.15 20.55C1.82 22.21.1 22.5 0 20.5C1.61 19.26 1.83 18.16 1.15 17.84C.47 19.34-1 19 0 17.25C1.78 16.4 2.31 15.4 1.81 14.86C.76 16.14-1 15.25 0 13.75C1.94 13.39 2.72 12.5 2.41 11.83C1.12 12.87-.5 11.5 1 10.25C3.06 10.35 4.05 9.62 4 8.84C2.5 9.5 1.1 8 3 7C5.11 7.33 6.27 6.83 6.44 6C5.11 6.33 4.05 4.84 5.75 4.16C7.8 4.77 8.94 4.54 9.4 3.79C8.25 3.79 7.72 2.16 9.35 1.76C11 2.65 12.3 2.76 13.11 2.2C12.11 1.77 12 0 13.5 0C14.7 1.1 16 1.5 17 1.2" /></svg>
 
-                            <!-- Header Strip segment dynamically colored -->
                             <div class="ticket-header-strip" style="background-color: ${mainColor}; color: ${textColor};">
                                 <div class="ticket-header-left">
                                     <svg class="ticket-header-plane-icon" viewBox="0 0 24 24" style="fill: ${mainColor.toLowerCase() === '#ffffff' || mainColor.startsWith('#E') || mainColor.startsWith('#F') ? subTextColor : '#facc15'} !important;">
@@ -1549,10 +1536,8 @@
                                 </div>
                             </div>
 
-                            <!-- Main Container Layout holding clean metadata content fields -->
                             <div class="ticket-body-grid-container">
                                 
-                                <!-- Left Main Panel (Fully distributed to prevent dead white space) -->
                                 <div class="ticket-grid-side-panel">
                                     <div class="ticket-data-box">
                                         <div class="ticket-data-label">Passenger</div>
@@ -1581,7 +1566,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Barcode asset block -->
                                     <div class="ticket-barcode-graphic-wrapper">
                                         <div class="barcode-line-element thick" style="background-color: #1e293b;"></div>
                                         <div class="barcode-line-element thin" style="background-color: #1e293b;"></div>
@@ -1597,10 +1581,8 @@
                                     </div>
                                 </div>
 
-                                <!-- Ticket Tear Dotted Divider line column -->
                                 <div class="ticket-stub-divider-line"></div>
 
-                                <!-- Right Stub Panel (Fully distributed to prevent dead white space) -->
                                 <div class="ticket-grid-side-panel">
                                     <div class="ticket-data-box">
                                         <div class="ticket-data-label">Passenger</div>
@@ -1629,7 +1611,6 @@
 
                             </div>
 
-                            <!-- Base Scripture Panel filled with randomized verse content text -->
                             <div class="ticket-scripture-footer-banner" style="background-color: ${mainColor}; color: ${textColor};">
                                 <p style="color: ${textColor} !important;">"${selectedVerseObj.verse}"</p>
                             </div>
@@ -1638,7 +1619,6 @@
                     </div>
                 </div>
 
-                <!-- Actions Row Section -->
                 <div class="share-action-container-box">
                     <p>Your boarding pass has been generated!</p>
                     
@@ -1682,29 +1662,35 @@
         applyProportionalScale();
     }
 
-    // Capture functionality using an isolated high-fidelity DOM clone workflow to preserve exact printing coordinates
+    // Capture functionality using a visible absolute positioning setup to avoid clipping gaps
     function handleImageShareSequence(passengerName) {
         const targetSource = document.getElementById('captureTicketZone');
         if (!targetSource) return;
 
-        // Clone the source layout to an isolated block detached from the scale factor rules
+        // Clone the target block to a neutral flow environment without nested scales
         const detachedClone = targetSource.cloneNode(true);
         detachedClone.style.transform = "none";
-        detachedClone.style.position = "fixed";
+        detachedClone.style.position = "absolute";
         detachedClone.style.top = "-9999px";
         detachedClone.style.left = "-9999px";
         detachedClone.style.width = "640px";
         detachedClone.style.height = "360px";
+        detachedClone.style.margin = "0";
+        detachedClone.style.padding = "0";
+        
+        // Append to body temporarily so html2canvas can access layout properties safely
         document.body.appendChild(detachedClone);
 
         html2canvas(detachedClone, {
-            scale: 3, // Premium ultra-print fidelity multiplier
+            scale: 3, // Ultra high-fidelity multiplier for clean printing parameters
             useCORS: true,
             allowTaint: true,
             logging: false,
-            backgroundColor: "#ffffff", 
+            backgroundColor: null, // Clear transparent default tracking channels
             width: 640,
-            height: 360
+            height: 360,
+            x: 0,
+            y: 0
         }).then(canvas => {
             const dataUrl = canvas.toDataURL('image/png');
             
@@ -1714,11 +1700,16 @@
             document.body.appendChild(downloadLink);
             downloadLink.click();
             downloadLink.remove();
-            detachedClone.remove(); // Evacuate runtime cloned elements safely
+            
+            // Safe cleanup loop execution
+            detachedClone.remove(); 
             
             setTimeout(() => {
                 window.open(TARGET_WHATSAPP_LINK, '_blank');
             }, 800);
+        }).catch(err => {
+            console.error("Canvas transformation error detected:", err);
+            detachedClone.remove();
         });
     }
 </script>

@@ -1407,64 +1407,74 @@
         const subTextColor = colorConfig[2];
 
         const sendData = (fileData = null, fileName = null, fileMimeType = null) => {
-            const stampOverlay = document.getElementById('stampOverlay');
-            stampOverlay.classList.add('active');
+    const stampOverlay = document.getElementById('stampOverlay');
+    stampOverlay.classList.add('active');
 
-            const payloadData = {
-                fullName: cleanName,
-                age: document.getElementById('age').value,
-                gender: document.getElementById('gender').value,
-                phone: document.getElementById('phone').value,
-                email: document.getElementById('email').value,
-                zone: document.getElementById('zone').value,
-                community: document.getElementById('community').value,
-                parishCheck: parishCheck,
-                interestedInYG: document.querySelector('input[name="interestedInYG"]:checked').value,
-                partOfJyg: document.querySelector('input[name="partOfJyg"]:checked').value,
-                volunteerInterest: document.querySelector('input[name="volunteerInterest"]:checked').value,
-                activities: checkedActivities.join(', '),
-                talents: checkedTalents.join(', '),
-                suggestions: document.getElementById('suggestions').value
-            };
+    // 1. Pack everything into a clean JavaScript Object map
+    const payloadData = {
+        fullName: cleanName,
+        age: document.getElementById('age').value,
+        gender: document.getElementById('gender').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        zone: document.getElementById('zone').value,
+        community: document.getElementById('community').value,
+        parishCheck: parishCheck,
+        interestedInYG: document.querySelector('input[name="interestedInYG"]:checked').value,
+        partOfJyg: document.querySelector('input[name="partOfJyg"]:checked').value,
+        volunteerInterest: document.querySelector('input[name="volunteerInterest"]:checked').value,
+        activities: checkedActivities.join(', '),
+        talents: checkedTalents.join(', '),
+        suggestions: document.getElementById('suggestions').value
+    };
 
-            if (fileData) {
-                payloadData.fileData = fileData;
-                payloadData.fileName = fileName;
-                payloadData.fileMimeType = fileMimeType;
-            }
+    if (fileData) {
+        payloadData.fileData = fileData;
+        payloadData.fileName = fileName;
+        payloadData.fileMimeType = fileMimeType;
+    }
 
-            const finalQueryString = Object.keys(payloadData)
-                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payloadData[key]))
-                .join('&');
+    // 2. Format as a safe URL Query String 
+    const finalQueryString = Object.keys(payloadData)
+        .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payloadData[key]))
+        .join('&');
 
-            fetch(BACKEND_URL, {
-                method: 'POST',
-                body: finalQueryString,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-            })
-            .then(res => {
-                if (!res.ok) throw new Error('Target server drop');
-                return res.json();
-            })
-            .then(result => {
-                stampOverlay.classList.remove('active');
-                
-                if (result.status === "success") {
-                    renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
-                } else if (result.status === "duplicate") {
-                    document.getElementById('duplicateMessageText').innerText = result.message;
-                    document.getElementById('duplicatePopup').classList.add('show');
-                } else {
-                    alert("System Exception: " + (result.message || "Unknown data verification error."));
-                    if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
-                }
-            })
-            .catch(err => {
-                stampOverlay.classList.remove('active');
-                alert("Submission connection dropped. Please check your internet connectivity.");
-                if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
-            });
-        };
+    // 3. Optimized Network Fetch Configuration
+    fetch(BACKEND_URL, {
+        method: 'POST',
+        mode: 'cors',            // Explicitly set cross-origin mode
+        redirect: 'follow',      // CRITICAL: Tells the browser to follow Google's 302 redirects
+        body: finalQueryString,
+        headers: {
+            // Changing this to text/plain is a well-known workaround that stops 
+            // the browser from firing the failing pre-flight OPTIONS request.
+            'Content-Type': 'text/plain;charset=utf-8' 
+        }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Target server drop');
+        return res.json();
+    })
+    .then(result => {
+        stampOverlay.classList.remove('active');
+        
+        if (result.status === "success") {
+            renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
+        } else if (result.status === "duplicate") {
+            document.getElementById('duplicateMessageText').innerText = result.message;
+            document.getElementById('duplicatePopup').classList.add('show');
+        } else {
+            alert("System Exception: " + (result.message || "Unknown data verification error."));
+            if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
+        }
+    })
+    .catch(err => {
+        stampOverlay.classList.remove('active');
+        console.error("Submission Error Details:", err); // Prints the exact browser error to the console for inspection
+        alert("Submission connection dropped. Please check your internet connectivity.");
+        if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
+    });
+};
 
         if (parishCheck === "No" && fileInput.files.length > 0) {
             const file = fileInput.files[0];

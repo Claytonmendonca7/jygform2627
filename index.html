@@ -1241,7 +1241,7 @@
 </div>
 
 <script>
-    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbz8q3OmHsrwoGms2iPa8EfbyRl7IgKaDokBdmyHvUQIeGuosQN-zZyhoZYlqj-_u8PXLg/exec";
+    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbxEXKC7FVKa1xUNTmlDGaUS2yS_UfT9amJYr98aP03QJ_T-lnE9eMk4JfXPBCRBo117Wg/exec";
     const TARGET_WHATSAPP_LINK = "https://chat.whatsapp.com/BmGvhQyQIZx7zY7I7tYD0K?s=sh&p=a&mlu=3&amv=3";
 
     const BIBLE_VERSES = [
@@ -1437,11 +1437,13 @@
         const subTextColor = colorConfig[2];
 
         // 🚀 FIXED: Dynamic FormData implementation maps fields cleanly into Apps Script parameter arrays
+        // 🚀 FIXED: URL-encoded parameter transmission stream makes e.parameter readable by Google Apps Script
         const sendData = (fileData = null, fileName = null, fileMimeType = null) => {
             const stampOverlay = document.getElementById('stampOverlay');
             stampOverlay.classList.add('active');
 
-            const postPayload = new FormData();
+            // 1. Build a URLSearchParams container to force application/x-www-form-urlencoded formatting
+            const postPayload = new URLSearchParams();
             postPayload.append('fullName', cleanName);
             postPayload.append('age', document.getElementById('age').value);
             postPayload.append('gender', document.getElementById('gender').value);
@@ -1463,10 +1465,13 @@
                 postPayload.append('fileMimeType', fileMimeType);
             }
 
-            // High compatibility asynchronous stream avoids triggering preflight blocks
+            // 2. Transmit via standard string layout to bypass any internal Google 302 redirection drops
             fetch(BACKEND_URL, {
                 method: 'POST',
-                body: postPayload
+                body: postPayload.toString(),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
             })
             .then(res => {
                 if (!res.ok) throw new Error('Target connection dropped');

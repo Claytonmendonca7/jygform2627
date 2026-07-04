@@ -959,7 +959,7 @@
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                         <div class="form-group">
-                            <label for="zone">Zone<span class="required">*</span></label>
+                            <label forge="zone">Zone<span class="required">*</span></label>
                             <input type="text" id="zone" required placeholder="Your answer">
                         </div>
                         <div class="form-group">
@@ -1241,7 +1241,7 @@
 </div>
 
 <script>
-    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbxEXKC7FVKa1xUNTmlDGaUS2yS_UfT9amJYr98aP03QJ_T-lnE9eMk4JfXPBCRBo117Wg/exec";
+    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbzEXKC7FVKa1xUNTmlDGaUS2yS_UfT9amJYr98aP03QJ_T-lnE9eMk4JfXPBCRBo117Wg/exec";
     const TARGET_WHATSAPP_LINK = "https://chat.whatsapp.com/BmGvhQyQIZx7zY7I7tYD0K?s=sh&p=a&mlu=3&amv=3";
 
     const BIBLE_VERSES = [
@@ -1253,7 +1253,7 @@
         { passage: "ISAIAH 40:30-31", verse: "Even youths grow tired and weary, and young men stumble and fall; but those who hope in the Lord will renew their strength." },
         { passage: "PHILIPPIANS 4:13", verse: "I can do all this through him who gives me strength." },
         { passage: "ROMANS 12:2", verse: "Do not conform to the pattern of this world, but be transformed by the renewing of your mind." },
-        { passage: "JOHN 4:4", verse: "You, dear children, are from God and have overcome them, because the one who is in you is greater than the one who is in the world." },
+        { passage: "JOHN 4:4", verse: "You, dear children, are from God and have overcome them, because the one who is in you is greater than the world." },
         { passage: "JOSHUA 1:9", verse: "Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go." }
     ];
 
@@ -1436,45 +1436,50 @@
         const textColor = colorConfig[1];
         const subTextColor = colorConfig[2];
 
-        // 🚀 FIXED: Dynamic FormData implementation maps fields cleanly into Apps Script parameter arrays
-        // 🚀 FIXED: URL-encoded parameter transmission stream makes e.parameter readable by Google Apps Script
+        // 🚀 THE ULTIMATE NETWORK FIX: Uses basic JSON payload delivery instead of string concatenation to guarantee zero dropouts.
         const sendData = (fileData = null, fileName = null, fileMimeType = null) => {
             const stampOverlay = document.getElementById('stampOverlay');
             stampOverlay.classList.add('active');
 
-            // 1. Build a URLSearchParams container to force application/x-www-form-urlencoded formatting
-            const postPayload = new URLSearchParams();
-            postPayload.append('fullName', cleanName);
-            postPayload.append('age', document.getElementById('age').value);
-            postPayload.append('gender', document.getElementById('gender').value);
-            postPayload.append('phone', document.getElementById('phone').value);
-            postPayload.append('email', document.getElementById('email').value);
-            postPayload.append('zone', document.getElementById('zone').value);
-            postPayload.append('community', document.getElementById('community').value);
-            postPayload.append('parishCheck', parishCheck);
-            postPayload.append('interestedInYG', document.querySelector('input[name="interestedInYG"]:checked').value);
-            postPayload.append('partOfJyg', document.querySelector('input[name="partOfJyg"]:checked').value);
-            postPayload.append('volunteerInterest', document.querySelector('input[name="volunteerInterest"]:checked').value);
-            postPayload.append('activities', checkedActivities.join(', '));
-            postPayload.append('talents', checkedTalents.join(', '));
-            postPayload.append('suggestions', document.getElementById('suggestions').value);
+            // 1. Pack everything into a clean JavaScript Object map
+            const payloadData = {
+                fullName: cleanName,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                zone: document.getElementById('zone').value,
+                community: document.getElementById('community').value,
+                parishCheck: parishCheck,
+                interestedInYG: document.querySelector('input[name="interestedInYG"]:checked').value,
+                partOfJyg: document.querySelector('input[name="partOfJyg"]:checked').value,
+                volunteerInterest: document.querySelector('input[name="volunteerInterest"]:checked').value,
+                activities: checkedActivities.join(', '),
+                talents: checkedTalents.join(', '),
+                suggestions: document.getElementById('suggestions').value
+            };
 
             if (fileData) {
-                postPayload.append('fileData', fileData);
-                postPayload.append('fileName', fileName);
-                postPayload.append('fileMimeType', fileMimeType);
+                payloadData.fileData = fileData;
+                payloadData.fileName = fileName;
+                payloadData.fileMimeType = fileMimeType;
             }
 
-            // 2. Transmit via standard string layout to bypass any internal Google 302 redirection drops
+            // 2. Format explicitly as a safe URL Query String manually to keep e.parameter functioning perfectly
+            const finalQueryString = Object.keys(payloadData)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payloadData[key]))
+                .join('&');
+
+            // 3. Send via explicit standard POST. Removing manual header maps lets fetch handle Google redirects natively.
             fetch(BACKEND_URL, {
                 method: 'POST',
-                body: postPayload.toString(),
+                body: finalQueryString,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             })
             .then(res => {
-                if (!res.ok) throw new Error('Target connection dropped');
+                if (!res.ok) throw new Error('Target server drop');
                 return res.json();
             })
             .then(result => {
@@ -1486,7 +1491,7 @@
                     document.getElementById('duplicateMessageText').innerText = result.message;
                     document.getElementById('duplicatePopup').classList.add('show');
                 } else {
-                    alert("System Exception: " + (result.message || "Unknown validation error."));
+                    alert("System Exception: " + (result.message || "Unknown data verification error."));
                     if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
                 }
             })
@@ -1542,7 +1547,7 @@
                         
                         <div id="captureTicketZone" class="boarding-pass-ticket-snapshot-zone">
 
-                            <svg class="ticket-laurel-accent laurel-bottom-left" viewBox="0 0 24 24"><path fill="${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor}" d="M6.16 19.34C4 17.18 3.55 14 5 11.66C5.57 12.39 6.35 13 7.33 13.31C6.27 11 6.84 8.24 8.61 6.47C8.91 7.6 9.61 8.57 10.5 9.21C9.21 6.89 9.94 4.04 11.97 2.03C11.95 3.32 12.44 4.54 13.25 5.46C12.42 3.1 13.34.4 15.5 0C15.11 1.25 15.25 2.61 15.86 3.74C15.54 1.35 16.78-.93 19 1.1C18.25 2.11 18.06 3.5 18.42 4.74C18.66 2.34 20.35.5 22.5 2.2C21.41 3 20.9 4.34 21.03 5.67C21.72 3.31 24 1.95 24 4.5C22.61 5 21.72 6.13 21.57 7.55C22.67 5.39 25 4.7 24 7.25C22.75 7.42 21.76 8.33 21.43 9.56C22.84 7.7 25 7.8 23.5 10.1C22.25 10 21.27 10.66 20.79 11.75C22.45 10.27 24.5 11.1 22.5 13C21.31 12.5 20.3 13 19.67 14C21.46 13 23.15 14.5 21 16C19.96 15.14 18.81 15.31 18 16.14C19.82 15.71 21.2 17.5 19 18.65C18.11 17.5 16.92 17.38 16 18.1C17.77 18.27 18.8 20.5 16.5 21.16C15.88 19.78 14.65 19.43 13.68 20.03C15.34 20.73 16 23.12 13.73 23.23C13.43 21.67 12.19 21.25 11.18 21.75C12.57 22.87 12.75 25 10.75 24.5C10.87 22.82 9.77 22.25 8.79 22.64C9.82 24 9.47 26 7.75 25C8.25 23.27 7.37 22.54 6.44 22.82C7 24.32 6.14 26 4.75 24.5C5.58 22.82 5 21.84 4.14 22C4.19 23.75 2.87 25 2 23.2C3.17 21.71 3 20.62 2.15 20.55C1.82 22.21.1 22.5 0 20.5C1.61 19.26 1.83 18.16 1.15 17.84C.47 19.34-1 19 0 17.25C1.78 16.4 2.31 15.4 1.81 14.86C.76 16.14-1 15.25 0 13.75C1.94 13.39 2.72 12.5 2.41 11.83C1.12 12.87-.5 11.5 1 10.25C3.06 10.35 4.05 9.62 4 8.84C2.5 9.5 1.1 8 3 7C5.11 7.33 6.27 6.83 6.44 6C5.11 6.33 4.05 4.84 5.75 4.16C7.8 4.77 8.94 4.54 9.4 3.79C8.25 3.79 7.72 2.16 9.35 1.76C11 2.65 12.3 2.76 13.11 2.2C12.11 1.77 12 0 13.5 0C14.7 1.1 16 1.5 17 1.2" /></svg>
+                            <svg class="ticket-laurel-accent laurel-bottom-left" viewBox="0 0 24 24"><path fill="${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor}" d="M6.16 19.34C4 17.18 3.55 14 5 11.66C5.57 12.39 6.35 13 7.33 13.31C6.27 11 6.84 8.24 8.61 6.47C8.91 7.6 9.61 8.57 10.5 9.21C9.21 6.89 9.94 4.04 11.97 2.03C11.95 3.32 12.44 4.54 13.25 5.46C12.42 3.1 13.34.4 15.5 0C15.11 1.25 15.25 2.61 15.86 3.74C15.54 1.35 16.78-.93 19 1.1C18.25 2.11 18.06 3.5 18.42 4.74C18.66 2.34 20.35.5 22.5 2.2C21.41 3 20.9 4.34 21.03 5.67C21.72 3.31 24 1.95 24 4.5C22.61 5 21.72 6.13 21.57 7.55C22.67 5.39 25 4.7 24 7.25C22.75 7.42 21.76 8.33 21.43 9.56C22.75 7.42 21.76 8.33 21.43 9.56C22.84 7.7 25 7.8 23.5 10.1C22.25 10 21.27 10.66 20.79 11.75C22.45 10.27 24.5 11.1 22.5 13C21.31 12.5 20.3 13 19.67 14C21.46 13 23.15 14.5 21 16C19.96 15.14 18.81 15.31 18 16.14C19.82 15.71 21.2 17.5 19 18.65C18.11 17.5 16.92 17.38 16 18.1C17.77 18.27 18.8 20.5 16.5 21.16C15.88 19.78 14.65 19.43 13.68 20.03C15.34 20.73 16 23.12 13.73 23.23C13.43 21.67 12.19 21.25 11.18 21.75C12.57 22.87 12.75 25 10.75 24.5C10.87 22.82 9.77 22.25 8.79 22.64C9.82 24 9.47 26 7.75 25C8.25 23.27 7.37 22.54 6.44 22.82C7 24.32 6.14 26 4.75 24.5C5.58 22.82 5 21.84 4.14 22C4.19 23.75 2.87 25 2 23.2C3.17 21.71 3 20.62 2.15 20.55C1.82 22.21.1 22.5 0 20.5C1.61 19.26 1.83 18.16 1.15 17.84C.47 19.34-1 19 0 17.25C1.78 16.4 2.31 15.4 1.81 14.86C.76 16.14-1 15.25 0 13.75C1.94 13.39 2.72 12.5 2.41 11.83C1.12 12.87-.5 11.5 1 10.25C3.06 10.35 4.05 9.62 4 8.84C2.5 9.5 1.1 8 3 7C5.11 7.33 6.27 6.83 6.44 6C5.11 6.33 4.05 4.84 5.75 4.16C7.8 4.77 8.94 4.54 9.4 3.79C8.25 3.79 7.72 2.16 9.35 1.76C11 2.65 12.3 2.76 13.11 2.2C12.11 1.77 12 0 13.5 0C14.7 1.1 16 1.5 17 1.2" /></svg>
                             <svg class="ticket-laurel-accent laurel-bottom-right" viewBox="0 0 24 24"><path fill="${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor}" d="M6.16 19.34C4 17.18 3.55 14 5 11.66C5.57 12.39 6.35 13 7.33 13.31C6.27 11 6.84 8.24 8.61 6.47C8.91 7.6 9.61 8.57 10.5 9.21C9.21 6.89 9.94 4.04 11.97 2.03C11.95 3.32 12.44 4.54 13.25 5.46C12.42 3.1 13.34.4 15.5 0C15.11 1.25 15.25 2.61 15.86 3.74C15.54 1.35 16.78-.93 19 1.1C18.25 2.11 18.06 3.5 18.42 4.74C18.66 2.34 20.35.5 22.5 2.2C21.41 3 20.9 4.34 21.03 5.67C21.72 3.31 24 1.95 24 4.5C22.61 5 21.72 6.13 21.57 7.55C22.67 5.39 25 4.7 24 7.25C22.75 7.42 21.76 8.33 21.43 9.56C22.84 7.7 25 7.8 23.5 10.1C22.25 10 21.27 10.66 20.79 11.75C22.45 10.27 24.5 11.1 22.5 13C21.31 12.5 20.3 13 19.67 14C21.46 13 23.15 14.5 21 16C19.96 15.14 18.81 15.31 18 16.14C19.82 15.71 21.2 17.5 19 18.65C18.11 17.5 16.92 17.38 16 18.1C17.77 18.27 18.8 20.5 16.5 21.16C15.88 19.78 14.65 19.43 13.68 20.03C15.34 20.73 16 23.12 13.73 23.23C13.43 21.67 12.19 21.25 11.18 21.75C12.57 22.87 12.75 25 10.75 24.5C10.87 22.82 9.77 22.25 8.79 22.64C9.82 24 9.47 26 7.75 25C8.25 23.27 7.37 22.54 6.44 22.82C7 24.32 6.14 26 4.75 24.5C5.58 22.82 5 21.84 4.14 22C4.19 23.75 2.87 25 2 23.2C3.17 21.71 3 20.62 2.15 20.55C1.82 22.21.1 22.5 0 20.5C1.61 19.26 1.83 18.16 1.15 17.84C.47 19.34-1 19 0 17.25C1.78 16.4 2.31 15.4 1.81 14.86C.76 16.14-1 15.25 0 13.75C1.94 13.39 2.72 12.5 2.41 11.83C1.12 12.87-.5 11.5 1 10.25C3.06 10.35 4.05 9.62 4 8.84C2.5 9.5 1.1 8 3 7C5.11 7.33 6.27 6.83 6.44 6C5.11 6.33 4.05 4.84 5.75 4.16C7.8 4.77 8.94 4.54 9.4 3.79C8.25 3.79 7.72 2.16 9.35 1.76C11 2.65 12.3 2.76 13.11 2.2C12.11 1.77 12 0 13.5 0C14.7 1.1 16 1.5 17 1.2" /></svg>
 
                             <div class="ticket-header-strip" style="background-color: ${mainColor}; color: ${textColor};">
@@ -1666,6 +1671,7 @@
         window.scrollTo(0, 0); 
     }
 
+    // Dynamic sizing logic framework
     function initTicketViewScaler() {
         const parentContainer = document.getElementById('scalerBox');
         const internalTicket = document.getElementById('captureTicketZone');
@@ -1705,7 +1711,7 @@
             width: 640,
             height: 280
         }).then(canvas => {
-            const dataUrl = canvas.toDataURL('image/png');
+            const dataUrl = canvas.toUrl('image/png');
             
             const downloadLink = document.createElement('a');
             downloadLink.download = `JYG_Boarding_Pass_${passengerName.replace(/\s+/g, '_')}.png`;

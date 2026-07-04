@@ -1261,6 +1261,9 @@
         document.getElementById('introScreen').style.display = 'none';
         document.getElementById('formScreen').style.display = 'block';
         window.scrollTo(0, 0);
+        
+        // Initialize slider logic safely only after form elements are visible in DOM layout tree
+        initSliderLayout();
     }
 
     function toggleParishConsent(show) {
@@ -1304,8 +1307,8 @@
         document.getElementById('interestYes').checked = true;
     }
 
-    // Slider processing
-    (function initSliderSubmit() {
+    // Wrapped Slider processing block into an executable standalone engine logic system
+    function initSliderLayout() {
         const handle = document.getElementById('slideHandle');
         const wrapper = document.getElementById('slideWrapper');
         const progress = document.getElementById('slideProgress');
@@ -1396,7 +1399,7 @@
         window.addEventListener('touchmove', moveDrag, {passive: false});
         window.addEventListener('mouseup', endDrag);
         window.addEventListener('touchend', endDrag);
-    })();
+    }
 
     function executeFormSubmission() {
         const checkedActivities = Array.from(document.querySelectorAll('input[name="activities"]:checked')).map(el => el.value);

@@ -9,7 +9,7 @@
         :root {
             --bg-color: #f0f4f8;
             --card-bg: #ffffff;
-            --passport-blue: #0b2545; /* Dark signature passprt blue from image */
+            --passport-blue: #0b2545; /* Dark signature passport blue from image */
             --ticket-blue: #134074;
             --accent-gold: #c5a059; /* Vintage gold accents */
             --alert-red: #b91c1c;
@@ -46,7 +46,7 @@
             overflow: hidden;
         }
 
-        /* Screen 1: Light-Themed Tavel Aesthetic Intro Screen */
+        /* Screen 1: Light-Themed Travel Aesthetic Intro Screen */
         .intro-screen {
             padding: 40px 24px;
             text-align: center;
@@ -695,16 +695,13 @@
             margin: 0 auto 12px auto;
         }
 
-        /* ==========================================================================
-           FIXED ASPECT-RATIO LANDSCAPE BOARDING PASS MODIFICATIONS
-           ========================================================================== */
+        /* Landscape Pass Scale Adjustments */
         .success-screen {
             background-color: #ffffff;
             animation: fadeIn 0.4s ease-out forwards;
             padding: 16px 12px;
         }
         
-        /* Fixed Aspect Ratio Container Fitment Optimization Blueprint */
         .ticket-scale-wrapper {
             width: 100%;
             position: relative;
@@ -714,7 +711,6 @@
             align-items: center;
         }
 
-        /* Enforce native 16:7 box container proportions safely */
         .ticket-scaler-internal-box {
             width: 100%;
             max-width: 640px;
@@ -722,7 +718,6 @@
             position: relative;
         }
 
-        /* Standard static render baseline resolution structure updated for 16:7 */
         .boarding-pass-ticket-snapshot-zone {
             background-color: #ffffff;
             border: 1px solid var(--border);
@@ -741,7 +736,6 @@
             z-index: 2;
         }
 
-        /* Decorative Floral Laurels Frame Layout adjusted slightly higher for 16:7 */
         .ticket-laurel-accent {
             position: absolute;
             width: 65px;
@@ -753,7 +747,6 @@
         .laurel-bottom-left { bottom: 25px; left: 12px; transform: rotate(15deg); }
         .laurel-bottom-right { bottom: 25px; right: 12px; transform: scaleX(-1) rotate(15deg); }
 
-        /* Top Header Segment Layout */
         .ticket-header-strip {
             background-color: #0b2545;
             color: #ffffff;
@@ -774,7 +767,6 @@
         .ticket-header-right-meta h4 { margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.5px; }
         .ticket-header-right-meta p { margin: 2px 0 0 0; font-size: 9px; opacity: 0.7; text-transform: uppercase; font-weight: 600; }
 
-        /* Uniform Core Data Grid Row Segment Structure adjusted height for 16:7 */
         .ticket-body-grid-container {
             display: grid;
             grid-template-columns: 1.4fr 1px 1fr;
@@ -798,7 +790,6 @@
             align-self: stretch;
         }
 
-        /* Sizing safeguards to enforce clean non-overlapping alignments */
         .ticket-data-box { margin-bottom: 4px; min-width: 0; }
         .ticket-data-box:last-child { margin-bottom: 0; }
         .ticket-data-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.3px; }
@@ -822,14 +813,12 @@
 
         .ticket-side-flex-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; min-width: 0; }
 
-        /* Precise Scaled Barcode Element Block Viewport Grid */
         .ticket-barcode-graphic-wrapper { display: flex; align-items: center; margin-top: 6px; gap: 1px; justify-content: flex-start; overflow: hidden; height: 22px; }
         .barcode-line-element { height: 100%; background-color: #1e293b; width: 1px; flex-shrink: 0; }
         .barcode-line-element.thick { width: 4px; }
         .barcode-line-element.medium { width: 2px; }
         .barcode-line-element.thin { width: 1px; }
 
-        /* Bottom Scriptural Footing Panel View Layout */
         .ticket-scripture-footer-banner {
             background-color: #134074;
             color: #ffffff;
@@ -852,7 +841,6 @@
             color: #ffffff !important;
         }
 
-        /* Share Area Controls Row Layout Framework */
         .share-action-container-box {
             padding: 24px 16px;
             background-color: #f8fafc;
@@ -1225,8 +1213,8 @@
                 <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
             </svg>
         </div>
-        <h3>Submission Blocked</h3>
-        <p id="duplicateMessageText" style="font-weight: 600; color: #9f1239;"></p>
+        <h3>System Intercept</h3>
+        <p id="duplicateMessageText" style="font-weight: 700; color: #9f1239; line-height: 1.5; margin-bottom: 20px;"></p>
         <button type="button" class="btn" style="background-color: var(--passport-blue);" onclick="closeDuplicateModal()">Acknowledge</button>
     </div>
 </div>
@@ -1253,10 +1241,9 @@
 </div>
 
 <script>
-    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbxOLlDhNZcuczqrTiaFrifS0sqcmyWFDpjdNdalXZ0Mf4spJIIwxgb3uoy_Xxv6wAP-9Q/exec";
+    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbz8q3OmHsrwoGms2iPa8EfbyRl7IgKaDokBdmyHvUQIeGuosQN-zZyhoZYlqj-_u8PXLg/exec";
     const TARGET_WHATSAPP_LINK = "https://chat.whatsapp.com/BmGvhQyQIZx7zY7I7tYD0K?s=sh&p=a&mlu=3&amv=3";
 
-    // 10 Youth Focused Bible Verse
     const BIBLE_VERSES = [
         { passage: "TIMOTHY 4:12", verse: "Don't let anyone look down on you because you are young, but set an example for the believers in speech, in conduct, in love, in faith and in purity." },
         { passage: "ECCLESIASTES 11:9", verse: "You who are young, be happy while you are young, and let your heart give you joy in the days of your youth." },
@@ -1276,8 +1263,6 @@
         document.getElementById('introScreen').style.display = 'none';
         document.getElementById('formScreen').style.display = 'block';
         window.scrollTo(0, 0);
-        
-        // Initialize slider logic safely only after form elements are visible in DOM layout tree
         initSliderLayout();
     }
 
@@ -1329,7 +1314,6 @@
         }
     }
 
-    // Wrapped Slider processing block into an executable standalone engine logic system
     function initSliderLayout() {
         const handle = document.getElementById('slideHandle');
         const wrapper = document.getElementById('slideWrapper');
@@ -1347,15 +1331,12 @@
         window.addEventListener('resize', updateBounds);
         updateBounds();
 
-        // Safe resetting module framework exposed to window context variables
         globalResetSliderFn = function() {
             handle.style.transition = 'transform 0.3s ease';
             progress.style.transition = 'width 0.3s ease';
             handle.style.transform = 'translateX(0px)';
             progress.style.width = '0px';
             textGuide.style.opacity = '1';
-            
-            // Re-bind click event streams safely
             handle.addEventListener('mousedown', startDrag);
             handle.addEventListener('touchstart', startDrag, {passive: true});
         };
@@ -1366,7 +1347,6 @@
                 return;
             }
 
-            // Explicit verification setup for the age validation logic
             const ageVal = parseInt(document.getElementById('age').value, 10);
             if (ageVal > 25) {
                 alert("Registration is restricted to individuals up to 25 years of age.");
@@ -1451,53 +1431,45 @@
         const parishCheck = document.querySelector('input[name="parishCheck"]:checked').value;
         const fileInput = document.getElementById('priestDocument');
 
-        // Extract styling metadata safely before submission framework cleanses form data
         const colorConfig = document.querySelector('input[name="passColor"]:checked').value.split('|');
         const mainColor = colorConfig[0];
         const textColor = colorConfig[1];
         const subTextColor = colorConfig[2];
 
+        // 🚀 FIXED: Dynamic FormData implementation maps fields cleanly into Apps Script parameter arrays
         const sendData = (fileData = null, fileName = null, fileMimeType = null) => {
             const stampOverlay = document.getElementById('stampOverlay');
             stampOverlay.classList.add('active');
 
-            // 1. Build a clean, raw JavaScript Object instead of URLSearchParams
-            const payload = {
-                fullName: cleanName,
-                age: document.getElementById('age').value,
-                gender: document.getElementById('gender').value,
-                phone: document.getElementById('phone').value,
-                email: document.getElementById('email').value,
-                zone: document.getElementById('zone').value,
-                community: document.getElementById('community').value,
-                parishCheck: parishCheck,
-                interestedInYG: document.querySelector('input[name="interestedInYG"]:checked').value,
-                partOfJyg: document.querySelector('input[name="partOfJyg"]:checked').value,
-                volunteerInterest: document.querySelector('input[name="volunteerInterest"]:checked').value,
-                activities: checkedActivities.join(', '),
-                talents: checkedTalents.join(', '),
-                suggestions: document.getElementById('suggestions').value
-            };
+            const postPayload = new FormData();
+            postPayload.append('fullName', cleanName);
+            postPayload.append('age', document.getElementById('age').value);
+            postPayload.append('gender', document.getElementById('gender').value);
+            postPayload.append('phone', document.getElementById('phone').value);
+            postPayload.append('email', document.getElementById('email').value);
+            postPayload.append('zone', document.getElementById('zone').value);
+            postPayload.append('community', document.getElementById('community').value);
+            postPayload.append('parishCheck', parishCheck);
+            postPayload.append('interestedInYG', document.querySelector('input[name="interestedInYG"]:checked').value);
+            postPayload.append('partOfJyg', document.querySelector('input[name="partOfJyg"]:checked').value);
+            postPayload.append('volunteerInterest', document.querySelector('input[name="volunteerInterest"]:checked').value);
+            postPayload.append('activities', checkedActivities.join(', '));
+            postPayload.append('talents', checkedTalents.join(', '));
+            postPayload.append('suggestions', document.getElementById('suggestions').value);
 
             if (fileData) {
-                payload.fileData = fileData;
-                payload.fileName = fileName;
-                payload.fileMimeType = fileMimeType;
+                postPayload.append('fileData', fileData);
+                postPayload.append('fileName', fileName);
+                postPayload.append('fileMimeType', fileMimeType);
             }
 
-            // 2. Convert the object into a plain, flat URL query string manually
-            const queryString = Object.keys(payload)
-                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payload[key]))
-                .join('&');
-
-            // 3. Send via raw text mode. Omitting Content-Type entirely bypasses the browser's CORS/Preflight security blocks!
+            // High compatibility asynchronous stream avoids triggering preflight blocks
             fetch(BACKEND_URL, {
                 method: 'POST',
-                body: queryString,
-                mode: 'cors'
+                body: postPayload
             })
             .then(res => {
-                if (!res.ok) throw new Error('Network response failure');
+                if (!res.ok) throw new Error('Target connection dropped');
                 return res.json();
             })
             .then(result => {
@@ -1509,18 +1481,17 @@
                     document.getElementById('duplicateMessageText').innerText = result.message;
                     document.getElementById('duplicatePopup').classList.add('show');
                 } else {
-                    alert("System Notice: " + (result.message || "Unknown error encountered."));
+                    alert("System Exception: " + (result.message || "Unknown validation error."));
                     if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
                 }
             })
             .catch(err => {
                 stampOverlay.classList.remove('active');
-                
-                // If it hits this catch block but data recorded successfully, Google Script processed it perfectly 
-                // but returned an opaque redirect. We treat it as a success!
-                renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
+                alert("Submission connection dropped. Please check your internet connectivity.");
+                if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
             });
         };
+
         if (parishCheck === "No" && fileInput.files.length > 0) {
             const file = fileInput.files[0];
             const reader = new FileReader();
@@ -1556,7 +1527,6 @@
     }
 
     function renderSuccessScreen(cleanName, mainColor, textColor, subTextColor) {
-        // Randomly select one bible verse layout item from the core array parameters
         const selectedVerseObj = BIBLE_VERSES[Math.floor(Math.random() * BIBLE_VERSES.length)];
 
         document.querySelector('.passport-form-container').innerHTML = `
@@ -1687,12 +1657,10 @@
             </div>
         `;
         
-        // Execute runtime scale-to-fit listener initialization immediately
         initTicketViewScaler();
         window.scrollTo(0, 0); 
     }
 
-    // Dynamic scale-to-fit calculation logic block targeting strict screen bounds updated for 16:7 aspect ratio
     function initTicketViewScaler() {
         const parentContainer = document.getElementById('scalerBox');
         const internalTicket = document.getElementById('captureTicketZone');
@@ -1702,8 +1670,6 @@
         function applyProportionalScale() {
             const currentWidth = parentContainer.clientWidth;
             const operationalScaleFactor = currentWidth / 640;
-            
-            // Adjust parent wrapper box height dynamically based on 16:7 scaling factor ratios (380px baseline adjusted to 280px)
             parentContainer.style.height = (280 * operationalScaleFactor) + 'px';
             internalTicket.style.transform = `scale(${operationalScaleFactor})`;
         }
@@ -1712,12 +1678,10 @@
         applyProportionalScale();
     }
 
-    // Capture functionality using an isolated high-fidelity DOM clone workflow to preserve exact printing coordinates updated for 16:7 viewport height
     function handleImageShareSequence(passengerName) {
         const targetSource = document.getElementById('captureTicketZone');
         if (!targetSource) return;
 
-        // Clone the source layout to an isolated block detached from the scale factor rules
         const detachedClone = targetSource.cloneNode(true);
         detachedClone.style.transform = "none";
         detachedClone.style.position = "fixed";
@@ -1728,7 +1692,7 @@
         document.body.appendChild(detachedClone);
 
         html2canvas(detachedClone, {
-            scale: 3, // Premium ultra-print fidelity multiplier
+            scale: 3, 
             useCORS: true,
             allowTaint: true,
             logging: false,
@@ -1744,7 +1708,7 @@
             document.body.appendChild(downloadLink);
             downloadLink.click();
             downloadLink.remove();
-            detachedClone.remove(); // Evacuate runtime cloned elements safely
+            detachedClone.remove(); 
             
             setTimeout(() => {
                 window.open(TARGET_WHATSAPP_LINK, '_blank');

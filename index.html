@@ -1218,6 +1218,19 @@
     </div>
 </div>
 
+<div class="popup-overlay" id="duplicatePopup">
+    <div class="popup-card">
+        <div style="margin-bottom: 15px;">
+            <svg style="width: 50px; height: 50px; fill: var(--alert-red);" viewBox="0 0 24 24">
+                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+        </div>
+        <h3>Submission Blocked</h3>
+        <p id="duplicateMessageText" style="font-weight: 600; color: #9f1239;"></p>
+        <button type="button" class="btn" style="background-color: var(--passport-blue);" onclick="closeDuplicateModal()">Acknowledge</button>
+    </div>
+</div>
+
 <div class="stamp-overlay-container" id="stampOverlay">
     <div class="passport-circular-stamp-frame">
         <svg class="stamp-curved-text-svg" viewBox="0 0 100 100">
@@ -1240,7 +1253,7 @@
 </div>
 
 <script>
-    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbzX_e2waaiCNQzpaxc83x27FX3jpsPpiWk_Pmbdje7L4T5KJrgEAAXxLXivJiYFrVg-hQ/exec";
+    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbyKR_xI6Cxjx_8CYC9Ein7U0ISE7VjL8hCRQ6Ma7gbYVgX2WYGW8Ih6tRXQ1SjKDRpryQ/exec";
     const TARGET_WHATSAPP_LINK = "https://chat.whatsapp.com/BmGvhQyQIZx7zY7I7tYD0K?s=sh&p=a&mlu=3&amv=3";
 
     // 10 Youth Focused Bible Verse
@@ -1256,6 +1269,8 @@
         { passage: "JOHN 4:4", verse: "You, dear children, are from God and have overcome them, because the one who is in you is greater than the one who is in the world." },
         { passage: "JOSHUA 1:9", verse: "Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go." }
     ];
+
+    let globalResetSliderFn = null;
 
     function startRegistration() {
         document.getElementById('introScreen').style.display = 'none';
@@ -1307,6 +1322,13 @@
         document.getElementById('interestYes').checked = true;
     }
 
+    function closeDuplicateModal() {
+        document.getElementById('duplicatePopup').classList.remove('show');
+        if (typeof globalResetSliderFn === 'function') {
+            globalResetSliderFn();
+        }
+    }
+
     // Wrapped Slider processing block into an executable standalone engine logic system
     function initSliderLayout() {
         const handle = document.getElementById('slideHandle');
@@ -1324,6 +1346,19 @@
         }
         window.addEventListener('resize', updateBounds);
         updateBounds();
+
+        // Safe resetting module framework exposed to window context variables
+        globalResetSliderFn = function() {
+            handle.style.transition = 'transform 0.3s ease';
+            progress.style.transition = 'width 0.3s ease';
+            handle.style.transform = 'translateX(0px)';
+            progress.style.width = '0px';
+            textGuide.style.opacity = '1';
+            
+            // Re-bind click event streams safely
+            handle.addEventListener('mousedown', startDrag);
+            handle.addEventListener('touchstart', startDrag, {passive: true});
+        };
 
         function startDrag(e) {
             if (!youthForm.checkValidity()) {
@@ -1423,78 +1458,57 @@
         const subTextColor = colorConfig[2];
 
         const sendData = (fileData = null, fileName = null, fileMimeType = null) => {
-            let responseReceived = false;
-            
-            const iframe = document.createElement('iframe');
-            iframe.name = 'hidden_iframe';
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-
-            const form = document.createElement('form');
-            form.target = 'hidden_iframe';
-            form.action = BACKEND_URL;
-            form.method = 'POST';
-
-            const addField = (name, value) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = name;
-                input.value = value;
-                form.appendChild(input);
-            };
-
-            addField('fullName', cleanName);
-            addField('age', document.getElementById('age').value);
-            addField('gender', document.getElementById('gender').value);
-            addField('phone', document.getElementById('phone').value);
-            addField('email', document.getElementById('email').value);
-            addField('zone', document.getElementById('zone').value);
-            addField('community', document.getElementById('community').value);
-            addField('parishCheck', parishCheck);
-            addField('interestedInYG', document.querySelector('input[name="interestedInYG"]:checked').value);
-            addField('partOfJyg', document.querySelector('input[name="partOfJyg"]:checked').value);
-            addField('volunteerInterest', document.querySelector('input[name="volunteerInterest"]:checked').value);
-            addField('activities', checkedActivities.join(', '));
-            addField('talents', checkedTalents.join(', '));
-            addField('suggestions', document.getElementById('suggestions').value);
-
-            if (fileData) {
-                addField('fileData', fileData);
-                addField('fileName', fileName);
-                addField('fileMimeType', fileMimeType);
-            }
-
-            iframe.onload = function() {
-                responseReceived = true;
-            };
-
-            document.body.appendChild(form);
-            
             const stampOverlay = document.getElementById('stampOverlay');
             stampOverlay.classList.add('active');
 
-            try {
-                form.submit();
-            } catch (err) {
-                alert("Submission failed. Please check your connection.");
-                stampOverlay.classList.remove('active');
-                location.reload();
-                return;
+            // Constructing a native modern payload object map configuration structure
+            const formData = new URLSearchParams();
+            formData.append('fullName', cleanName);
+            formData.append('age', document.getElementById('age').value);
+            formData.append('gender', document.getElementById('gender').value);
+            formData.append('phone', document.getElementById('phone').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('zone', document.getElementById('zone').value);
+            formData.append('community', document.getElementById('community').value);
+            formData.append('parishCheck', parishCheck);
+            formData.append('interestedInYG', document.querySelector('input[name="interestedInYG"]:checked').value);
+            formData.append('partOfJyg', document.querySelector('input[name="partOfJyg"]:checked').value);
+            formData.append('volunteerInterest', document.querySelector('input[name="volunteerInterest"]:checked').value);
+            formData.append('activities', checkedActivities.join(', '));
+            formData.append('talents', checkedTalents.join(', '));
+            formData.append('suggestions', document.getElementById('suggestions').value);
+
+            if (fileData) {
+                formData.append('fileData', fileData);
+                formData.append('fileName', fileName);
+                formData.append('fileMimeType', fileMimeType);
             }
 
-            setTimeout(() => {
-                if (!responseReceived && !navigator.onLine) {
-                    stampOverlay.classList.remove('active');
-                    alert("Your response could not be recorded securely.");
-                    location.reload();
-                    return;
-                }
-
+            // High availability modern network connection stream using standard Fetch asynchronous promises
+            fetch(BACKEND_URL, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .then(res => res.json())
+            .then(result => {
                 stampOverlay.classList.remove('active');
-                renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
-                form.remove();
-                iframe.remove();
-            }, 10000);
+                
+                if (result.status === "success") {
+                    renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
+                } else if (result.status === "duplicate") {
+                    document.getElementById('duplicateMessageText').innerText = result.message;
+                    document.getElementById('duplicatePopup').classList.add('show');
+                } else {
+                    alert("System Notice: " + (result.message || "Unknown error encountered."));
+                    if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
+                }
+            })
+            .catch(err => {
+                stampOverlay.classList.remove('active');
+                alert("Submission processing error. Please check your data connection parameters.");
+                if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
+            });
         };
 
         if (parishCheck === "No" && fileInput.files.length > 0) {

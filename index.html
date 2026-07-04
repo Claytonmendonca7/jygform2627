@@ -1326,15 +1326,12 @@
             }
 
             const checkedActivities = Array.from(document.querySelectorAll('input[name="activities"]:checked')).map(el => el.value);
-            const otherAct = document.getElementById('otherActivity').value.trim();
-            if (otherAct) checkedActivities.push(otherAct);
             if (checkedActivities.length === 0) { alert("Please select at least one activity."); return; }
 
             const checkedTalents = Array.from(document.querySelectorAll('input[name="talents"]:checked')).map(el => el.value);
-            const otherTal = document.getElementById('otherTalent').value.trim();
-            if (otherTal) checkedTalents.push(otherTal);
             if (checkedTalents.length === 0) { alert("Please select at least one talent."); return; }
 
+            // Slider instantly unlocks without cross-origin pre-checks
             isDragging = true;
             startX = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
             handle.style.transition = 'none';
@@ -1387,106 +1384,101 @@
     }
 
     function executeFormSubmission() {
-    const checkedActivities = Array.from(document.querySelectorAll('input[name="activities"]:checked')).map(el => el.value);
-    const otherAct = document.getElementById('otherActivity').value.trim();
-    if (otherAct) checkedActivities.push(otherAct);
+        const checkedActivities = Array.from(document.querySelectorAll('input[name="activities"]:checked')).map(el => el.value);
+        const otherAct = document.getElementById('otherActivity').value.trim();
+        if (otherAct) checkedActivities.push(otherAct);
 
-    const checkedTalents = Array.from(document.querySelectorAll('input[name="talents"]:checked')).map(el => el.value);
-    const otherTal = document.getElementById('otherTalent').value.trim();
-    if (otherTal) checkedTalents.push(otherTal);
+        const checkedTalents = Array.from(document.querySelectorAll('input[name="talents"]:checked')).map(el => el.value);
+        const otherTal = document.getElementById('otherTalent').value.trim();
+        if (otherTal) checkedTalents.push(otherTal);
 
-    const rawName = document.getElementById('fullName').value;
-    const cleanName = rawName.trim().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+        const rawName = document.getElementById('fullName').value;
+        const cleanName = rawName.trim().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
 
-    const parishCheck = document.querySelector('input[name="parishCheck"]:checked').value;
-    const fileInput = document.getElementById('priestDocument');
+        const parishCheck = document.querySelector('input[name="parishCheck"]:checked').value;
+        const fileInput = document.getElementById('priestDocument');
 
-    const colorConfig = document.querySelector('input[name="passColor"]:checked').value.split('|');
-    const mainColor = colorConfig[0];
-    const textColor = colorConfig[1];
-    const subTextColor = colorConfig[2];
+        const colorConfig = document.querySelector('input[name="passColor"]:checked').value.split('|');
+        const mainColor = colorConfig[0];
+        const textColor = colorConfig[1];
+        const subTextColor = colorConfig[2];
 
-    const sendData = (fileData = null, fileName = null, fileMimeType = null) => {
-        const stampOverlay = document.getElementById('stampOverlay');
-        stampOverlay.classList.add('active');
+        const sendData = (fileData = null, fileName = null, fileMimeType = null) => {
+            const stampOverlay = document.getElementById('stampOverlay');
+            stampOverlay.classList.add('active');
 
-        // 1. Create a completely invisible background delivery proxy frame if it doesn't exist
-        let hiddenIframe = document.getElementById('hidden_iframe_proxy');
-        if (!hiddenIframe) {
-            hiddenIframe = document.createElement('iframe');
-            hiddenIframe.id = 'hidden_iframe_proxy';
-            hiddenIframe.name = 'hidden_iframe_proxy';
-            hiddenIframe.style.display = 'none';
-            document.body.appendChild(hiddenIframe);
-        }
-
-        // 2. Set up a listener trap to catch when the submission completes
-        hiddenIframe.onload = function() {
-            stampOverlay.classList.remove('active');
-            // Since standard form submissions bypass the browser's CORS block,
-            // we confidently assume success and show the boarding pass confirmation screen!
-            renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
-        };
-
-        // 3. Convert data parameters into standard HTML Form Elements dynamically
-        const proxyForm = document.createElement('form');
-        proxyForm.action = BACKEND_URL;
-        proxyForm.method = 'POST';
-        proxyForm.target = 'hidden_iframe_proxy';
-
-        const payload = {
-            fullName: cleanName,
-            age: document.getElementById('age').value,
-            gender: document.getElementById('gender').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value,
-            zone: document.getElementById('zone').value,
-            community: document.getElementById('community').value,
-            parishCheck: parishCheck,
-            interestedInYG: document.querySelector('input[name="interestedInYG"]:checked').value,
-            partOfJyg: document.querySelector('input[name="partOfJyg"]:checked').value,
-            volunteerInterest: document.querySelector('input[name="volunteerInterest"]:checked').value,
-            activities: checkedActivities.join(', '),
-            talents: checkedTalents.join(', '),
-            suggestions: document.getElementById('suggestions').value
-        };
-
-        if (fileData) {
-            payload.fileData = fileData;
-            payload.fileName = fileName;
-            payload.fileMimeType = fileMimeType;
-        }
-
-        // Append parameters into the form structure
-        for (const key in payload) {
-            if (payload.hasOwnProperty(key)) {
-                const hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = key;
-                hiddenField.value = payload[key];
-                proxyForm.appendChild(hiddenField);
+            // Set up a clean, one-way hidden submission proxy frame
+            let hiddenIframe = document.getElementById('hidden_iframe_proxy');
+            if (!hiddenIframe) {
+                hiddenIframe = document.createElement('iframe');
+                hiddenIframe.id = 'hidden_iframe_proxy';
+                hiddenIframe.name = 'hidden_iframe_proxy';
+                hiddenIframe.style.display = 'none';
+                document.body.appendChild(hiddenIframe);
             }
-        }
 
-        // 4. Trigger the form delivery payload
-        document.body.appendChild(proxyForm);
-        proxyForm.submit();
-        proxyForm.remove(); // Clean up memory by removing the temporary form element
-    };
+            const proxyForm = document.createElement('form');
+            proxyForm.action = BACKEND_URL;
+            proxyForm.method = 'POST';
+            proxyForm.target = 'hidden_iframe_proxy';
 
-    if (parishCheck === "No" && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-            const base64Data = evt.target.result.split(',')[1];
-            sendData(base64Data, file.name, file.type);
+            const payload = {
+                fullName: cleanName,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                zone: document.getElementById('zone').value,
+                community: document.getElementById('community').value,
+                parishCheck: parishCheck,
+                interestedInYG: document.querySelector('input[name="interestedInYG"]:checked').value,
+                partOfJyg: document.querySelector('input[name="partOfJyg"]:checked').value,
+                volunteerInterest: document.querySelector('input[name="volunteerInterest"]:checked').value,
+                activities: checkedActivities.join(', '),
+                talents: checkedTalents.join(', '),
+                suggestions: document.getElementById('suggestions').value
+            };
+
+            if (fileData) {
+                payload.fileData = fileData;
+                payload.fileName = fileName;
+                payload.fileMimeType = fileMimeType;
+            }
+
+            for (const key in payload) {
+                if (payload.hasOwnProperty(key)) {
+                    const hiddenField = document.createElement('input');
+                    hiddenField.type = 'hidden';
+                    hiddenField.name = key;
+                    hiddenField.value = payload[key];
+                    proxyForm.appendChild(hiddenField);
+                }
+            }
+
+            document.body.appendChild(proxyForm);
+            proxyForm.submit();
+            proxyForm.remove(); 
+
+            // Renders the pass directly after data delivery
+            setTimeout(() => {
+                stampOverlay.classList.remove('active');
+                renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
+            }, 2500);
         };
-        reader.readAsDataURL(file);
-    } else {
-        sendData();
-    }
-}
 
+        if (parishCheck === "No" && fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const base64Data = evt.target.result.split(',')[1];
+                sendData(base64Data, file.name, file.type);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            sendData();
+        }
+    }
+    
     function renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor) {
         document.querySelector('.passport-form-container').innerHTML = `
             <div class="submission-confirmation-screen">

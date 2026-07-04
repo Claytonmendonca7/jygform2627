@@ -1485,12 +1485,16 @@
             }
 
             // High availability modern network connection stream using standard Fetch asynchronous promises
+            // High availability modern network connection stream using standard Fetch asynchronous promises
             fetch(BACKEND_URL, {
                 method: 'POST',
                 body: formData,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                mode: 'cors' // Allow standard script redirection maps safely
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Network error received');
+                return res.json();
+            })
             .then(result => {
                 stampOverlay.classList.remove('active');
                 
@@ -1508,7 +1512,7 @@
                 stampOverlay.classList.remove('active');
                 alert("Submission processing error. Please check your data connection parameters.");
                 if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
-            });
+            });        
         };
 
         if (parishCheck === "No" && fileInput.files.length > 0) {

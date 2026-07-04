@@ -696,7 +696,7 @@
         }
 
         /* ==========================================================================
-           OPTIMIZED ASPECT-RATIO 16:9 HEIGHT & WHITE SPACE REDUCTION RULES
+           FIXED ASPECT-RATIO LANDSCAPE BOARDING PASS MODIFICATIONS
            ========================================================================== */
         .success-screen {
             background-color: #ffffff;
@@ -704,6 +704,7 @@
             padding: 16px 12px;
         }
         
+        /* Fixed Aspect Ratio Container Fitment Optimization Blueprint */
         .ticket-scale-wrapper {
             width: 100%;
             position: relative;
@@ -713,15 +714,15 @@
             align-items: center;
         }
 
-        /* Enforce native exact 16:9 block proportions */
+        /* Enforce native 16:7 box container proportions safely */
         .ticket-scaler-internal-box {
             width: 100%;
             max-width: 640px;
-            aspect-ratio: 16 / 9;
+            aspect-ratio: 16 / 7;
             position: relative;
         }
 
-        /* Fixed dimensions to enforce strict 16:9 rendering bounds */
+        /* Standard static render baseline resolution structure updated for 16:7 */
         .boarding-pass-ticket-snapshot-zone {
             background-color: #ffffff;
             border: 1px solid var(--border);
@@ -730,7 +731,7 @@
             display: flex;
             flex-direction: column;
             width: 640px;
-            height: 360px;
+            height: 280px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.06);
             box-sizing: border-box;
             position: absolute;
@@ -740,7 +741,7 @@
             z-index: 2;
         }
 
-        /* Decorative Floral Laurels Framework */
+        /* Decorative Floral Laurels Frame Layout adjusted slightly higher for 16:7 */
         .ticket-laurel-accent {
             position: absolute;
             width: 65px;
@@ -749,20 +750,20 @@
             pointer-events: none;
             z-index: 1;
         }
-        .laurel-bottom-left { bottom: 60px; left: 12px; transform: rotate(15deg); }
-        .laurel-bottom-right { bottom: 60px; right: 12px; transform: scaleX(-1) rotate(15deg); }
+        .laurel-bottom-left { bottom: 25px; left: 12px; transform: rotate(15deg); }
+        .laurel-bottom-right { bottom: 25px; right: 12px; transform: scaleX(-1) rotate(15deg); }
 
-        /* Proportional Height Distribution: Header (56px) */
+        /* Top Header Segment Layout */
         .ticket-header-strip {
             background-color: #0b2545;
             color: #ffffff;
-            padding: 0 16px;
+            padding: 10px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: relative;
             z-index: 3;
-            height: 56px;
+            height: 52px;
         }
         .ticket-header-strip * { color: #ffffff !important; }
         .ticket-header-left { display: flex; align-items: center; gap: 10px; }
@@ -773,18 +774,18 @@
         .ticket-header-right-meta h4 { margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.5px; }
         .ticket-header-right-meta p { margin: 2px 0 0 0; font-size: 9px; opacity: 0.7; text-transform: uppercase; font-weight: 600; }
 
-        /* Enforce absolute height sizing calculation matching total outer height dimensions */
+        /* Uniform Core Data Grid Row Segment Structure adjusted height for 16:7 */
         .ticket-body-grid-container {
             display: grid;
             grid-template-columns: 1.4fr 1px 1fr;
-            padding: 18px 20px;
+            padding: 10px 16px;
             background-color: #ffffff;
-            gap: 20px;
-            align-items: stretch;
+            gap: 16px;
+            align-items: start;
             position: relative;
             z-index: 2;
-            height: 256px; /* Exactly 360px minus 56px header minus 48px footer */
-            box-sizing: border-box;
+            flex: 1;
+            height: calc(280px - 52px - 36px);
         }
         
         .ticket-stub-divider-line {
@@ -797,27 +798,21 @@
             align-self: stretch;
         }
 
-        /* Layout panels maximizing interior viewport distribution constraints */
-        .ticket-grid-side-panel {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-        .ticket-data-box { min-width: 0; margin-bottom: 2px; }
-        .ticket-data-label { font-size: 9.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.3px; }
-        .ticket-data-value { font-size: 14.5px; font-weight: 800; color: var(--passport-blue); text-transform: uppercase; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* Sizing safeguards to enforce clean non-overlapping alignments */
+        .ticket-data-box { margin-bottom: 4px; min-width: 0; }
+        .ticket-data-box:last-child { margin-bottom: 0; }
+        .ticket-data-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.3px; }
+        .ticket-data-value { font-size: 13px; font-weight: 800; color: var(--passport-blue); text-transform: uppercase; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         .ticket-data-value.passenger-highlight { 
-            font-size: 18px; 
+            font-size: 15px; 
             white-space: nowrap; 
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .ticket-stub-passenger-text {
-            font-size: 15px; 
+            font-size: 12px; 
             font-weight: 800; 
             white-space: nowrap; 
             overflow: hidden;
@@ -825,40 +820,39 @@
             margin-top: 1px;
         }
 
-        .ticket-side-flex-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-width: 0; }
+        .ticket-side-flex-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; min-width: 0; }
 
-        /* Barcode Asset */
-        .ticket-barcode-graphic-wrapper { display: flex; align-items: center; margin-top: 4px; gap: 1px; justify-content: flex-start; overflow: hidden; height: 28px; }
+        /* Precise Scaled Barcode Element Block Viewport Grid */
+        .ticket-barcode-graphic-wrapper { display: flex; align-items: center; margin-top: 6px; gap: 1px; justify-content: flex-start; overflow: hidden; height: 22px; }
         .barcode-line-element { height: 100%; background-color: #1e293b; width: 1px; flex-shrink: 0; }
         .barcode-line-element.thick { width: 4px; }
         .barcode-line-element.medium { width: 2px; }
         .barcode-line-element.thin { width: 1px; }
 
-        /* Proportional Height Distribution: Explicit 48px matching calculation bounds */
+        /* Bottom Scriptural Footing Panel View Layout */
         .ticket-scripture-footer-banner {
             background-color: #134074;
             color: #ffffff;
-            padding: 10px 16px;
+            padding: 6px 16px;
             text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 48px;
+            height: 36px;
             position: relative;
             z-index: 3;
-            box-sizing: border-box;
         }
         .ticket-scripture-footer-banner p {
             margin: 0;
-            font-size: 11px;
+            font-size: 9px;
             font-weight: 700;
-            line-height: 1.4;
+            line-height: 1.2;
             letter-spacing: 0.3px;
             text-transform: uppercase;
             color: #ffffff !important;
         }
 
-        /* Actions Container Area Row */
+        /* Share Area Controls Row Layout Framework */
         .share-action-container-box {
             padding: 24px 16px;
             background-color: #f8fafc;
@@ -1426,49 +1420,78 @@
         const subTextColor = colorConfig[2];
 
         const sendData = (fileData = null, fileName = null, fileMimeType = null) => {
+            let responseReceived = false;
+            
+            const iframe = document.createElement('iframe');
+            iframe.name = 'hidden_iframe';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+
+            const form = document.createElement('form');
+            form.target = 'hidden_iframe';
+            form.action = BACKEND_URL;
+            form.method = 'POST';
+
+            const addField = (name, value) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                form.appendChild(input);
+            };
+
+            addField('fullName', cleanName);
+            addField('age', document.getElementById('age').value);
+            addField('gender', document.getElementById('gender').value);
+            addField('phone', document.getElementById('phone').value);
+            addField('email', document.getElementById('email').value);
+            addField('zone', document.getElementById('zone').value);
+            addField('community', document.getElementById('community').value);
+            addField('parishCheck', parishCheck);
+            addField('interestedInYG', document.querySelector('input[name="interestedInYG"]:checked').value);
+            addField('partOfJyg', document.querySelector('input[name="partOfJyg"]:checked').value);
+            addField('volunteerInterest', document.querySelector('input[name="volunteerInterest"]:checked').value);
+            addField('activities', checkedActivities.join(', '));
+            addField('talents', checkedTalents.join(', '));
+            addField('suggestions', document.getElementById('suggestions').value);
+
+            if (fileData) {
+                addField('fileData', fileData);
+                addField('fileName', fileName);
+                addField('fileMimeType', fileMimeType);
+            }
+
+            iframe.onload = function() {
+                responseReceived = true;
+            };
+
+            document.body.appendChild(form);
+            
             const stampOverlay = document.getElementById('stampOverlay');
             stampOverlay.classList.add('active');
 
-            // Construct payload structured dynamically to avoid raw multipart multi-boundary parsing failure rules in Apps Scripts
-            const formData = new FormData();
-            formData.append('fullName', cleanName);
-            formData.append('age', document.getElementById('age').value);
-            formData.append('gender', document.getElementById('gender').value);
-            formData.append('phone', document.getElementById('phone').value);
-            formData.append('email', document.getElementById('email').value);
-            formData.append('zone', document.getElementById('zone').value);
-            formData.append('community', document.getElementById('community').value);
-            formData.append('parishCheck', parishCheck);
-            formData.append('interestedInYG', document.querySelector('input[name="interestedInYG"]:checked').value);
-            formData.append('partOfJyg', document.querySelector('input[name="partOfJyg"]:checked').value);
-            formData.append('volunteerInterest', document.querySelector('input[name="volunteerInterest"]:checked').value);
-            formData.append('activities', checkedActivities.join(', '));
-            formData.append('talents', checkedTalents.join(', '));
-            formData.append('suggestions', document.getElementById('suggestions').value);
-
-            if (fileData) {
-                formData.append('fileData', fileData);
-                formData.append('fileName', fileName);
-                formData.append('fileMimeType', fileMimeType);
+            try {
+                form.submit();
+            } catch (err) {
+                alert("Submission failed. Please check your connection.");
+                stampOverlay.classList.remove('active');
+                location.reload();
+                return;
             }
 
-            // Modern asynchronous pipeline optimization replacing legacy iframe routing blocks
-            fetch(BACKEND_URL, {
-                method: 'POST',
-                body: formData,
-                mode: 'cors'
-            })
-            .then(() => {
-                // Success execution loop runs immediately following a network acknowledgement signature
+            setTimeout(() => {
+                if (!responseReceived && !navigator.onLine) {
+                    stampOverlay.classList.remove('active');
+                    alert("Your response could not be recorded securely.");
+                    location.reload();
+                    return;
+                }
+
                 stampOverlay.classList.remove('active');
                 renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
-            })
-            .catch((err) => {
-                console.error("Network interface error details:", err);
-                stampOverlay.classList.remove('active');
-                alert("Submission could not complete securely. Retrying process internally...");
-                location.reload();
-            });
+                form.remove();
+                iframe.remove();
+            }, 10000);
         };
 
         if (parishCheck === "No" && fileInput.files.length > 0) {
@@ -1538,7 +1561,7 @@
 
                             <div class="ticket-body-grid-container">
                                 
-                                <div class="ticket-grid-side-panel">
+                                <div>
                                     <div class="ticket-data-box">
                                         <div class="ticket-data-label">Passenger</div>
                                         <div class="ticket-data-value passenger-highlight" style="color: ${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor};">${cleanName}</div>
@@ -1583,7 +1606,7 @@
 
                                 <div class="ticket-stub-divider-line"></div>
 
-                                <div class="ticket-grid-side-panel">
+                                <div>
                                     <div class="ticket-data-box">
                                         <div class="ticket-data-label">Passenger</div>
                                         <div class="ticket-stub-passenger-text" style="color: ${mainColor.toLowerCase().startsWith('#e') || mainColor.toLowerCase().startsWith('#f') ? subTextColor : mainColor};">${cleanName}</div>
@@ -1642,7 +1665,7 @@
         window.scrollTo(0, 0); 
     }
 
-    // Dynamic scale-to-fit calculation logic block targeting strict screen bounds
+    // Dynamic scale-to-fit calculation logic block targeting strict screen bounds updated for 16:7 aspect ratio
     function initTicketViewScaler() {
         const parentContainer = document.getElementById('scalerBox');
         const internalTicket = document.getElementById('captureTicketZone');
@@ -1653,8 +1676,8 @@
             const currentWidth = parentContainer.clientWidth;
             const operationalScaleFactor = currentWidth / 640;
             
-            // Adjust parent wrapper box height dynamically based on scaling factor ratios
-            parentContainer.style.height = (360 * operationalScaleFactor) + 'px';
+            // Adjust parent wrapper box height dynamically based on 16:7 scaling factor ratios (380px baseline adjusted to 280px)
+            parentContainer.style.height = (280 * operationalScaleFactor) + 'px';
             internalTicket.style.transform = `scale(${operationalScaleFactor})`;
         }
 
@@ -1662,35 +1685,29 @@
         applyProportionalScale();
     }
 
-    // Capture functionality using a visible absolute positioning setup to avoid clipping gaps
+    // Capture functionality using an isolated high-fidelity DOM clone workflow to preserve exact printing coordinates updated for 16:7 viewport height
     function handleImageShareSequence(passengerName) {
         const targetSource = document.getElementById('captureTicketZone');
         if (!targetSource) return;
 
-        // Clone the target block to a neutral flow environment without nested scales
+        // Clone the source layout to an isolated block detached from the scale factor rules
         const detachedClone = targetSource.cloneNode(true);
         detachedClone.style.transform = "none";
-        detachedClone.style.position = "absolute";
+        detachedClone.style.position = "fixed";
         detachedClone.style.top = "-9999px";
         detachedClone.style.left = "-9999px";
         detachedClone.style.width = "640px";
-        detachedClone.style.height = "360px";
-        detachedClone.style.margin = "0";
-        detachedClone.style.padding = "0";
-        
-        // Append to body temporarily so html2canvas can access layout properties safely
+        detachedClone.style.height = "280px";
         document.body.appendChild(detachedClone);
 
         html2canvas(detachedClone, {
-            scale: 3, // Ultra high-fidelity multiplier for clean printing parameters
+            scale: 3, // Premium ultra-print fidelity multiplier
             useCORS: true,
             allowTaint: true,
             logging: false,
-            backgroundColor: null, // Clear transparent default tracking channels
+            backgroundColor: "#ffffff", 
             width: 640,
-            height: 360,
-            x: 0,
-            y: 0
+            height: 280
         }).then(canvas => {
             const dataUrl = canvas.toDataURL('image/png');
             
@@ -1700,16 +1717,11 @@
             document.body.appendChild(downloadLink);
             downloadLink.click();
             downloadLink.remove();
-            
-            // Safe cleanup loop execution
-            detachedClone.remove(); 
+            detachedClone.remove(); // Evacuate runtime cloned elements safely
             
             setTimeout(() => {
                 window.open(TARGET_WHATSAPP_LINK, '_blank');
             }, 800);
-        }).catch(err => {
-            console.error("Canvas transformation error detected:", err);
-            detachedClone.remove();
         });
     }
 </script>

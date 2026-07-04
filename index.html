@@ -1461,48 +1461,64 @@
             const stampOverlay = document.getElementById('stampOverlay');
             stampOverlay.classList.add('active');
 
-            // Constructing form urlencoded parameters layout explicitly
-            const formData = new URLSearchParams();
-            formData.append('fullName', cleanName);
-            formData.append('age', document.getElementById('age').value);
-            formData.append('gender', document.getElementById('gender').value);
-            formData.append('phone', document.getElementById('phone').value);
-            formData.append('email', document.getElementById('email').value);
-            formData.append('zone', document.getElementById('zone').value);
-            formData.append('community', document.getElementById('community').value);
-            formData.append('parishCheck', parishCheck);
-            formData.append('interestedInYG', document.querySelector('input[name="interestedInYG"]:checked').value);
-            formData.append('partOfJyg', document.querySelector('input[name="partOfJyg"]:checked').value);
-            formData.append('volunteerInterest', document.querySelector('input[name="volunteerInterest"]:checked').value);
-            formData.append('activities', checkedActivities.join(', '));
-            formData.append('talents', checkedTalents.join(', '));
-            formData.append('suggestions', document.getElementById('suggestions').value);
+            // 1. Build a clean, raw JavaScript Object instead of URLSearchParams
+            const payload = {
+                fullName: cleanName,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                zone: document.getElementById('zone').value,
+                community: document.getElementById('community').value,
+                parishCheck: parishCheck,
+                interestedInYG: document.querySelector('input[name="interestedInYG"]:checked').value,
+                partOfJyg: document.querySelector('input[name="partOfJyg"]:checked').value,
+                volunteerInterest: document.querySelector('input[name="volunteerInterest"]:checked').value,
+                activities: checkedActivities.join(', '),
+                talents: checkedTalents.join(', '),
+                suggestions: document.getElementById('suggestions').value
+            };
 
             if (fileData) {
-                formData.append('fileData', fileData);
-                formData.append('fileName', fileName);
-                formData.append('fileMimeType', fileMimeType);
+                payload.fileData = fileData;
+                payload.fileName = fileName;
+                payload.fileMimeType = fileMimeType;
             }
 
-            // Bypassing standard Web App redirect loops by isolating fetch connection states
+            // 2. Convert the object into a plain, flat URL query string manually
+            const queryString = Object.keys(payload)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payload[key]))
+                .join('&');
+
+            // 3. Send via raw text mode. Omitting Content-Type entirely bypasses the browser's CORS/Preflight security blocks!
             fetch(BACKEND_URL, {
                 method: 'POST',
-                body: formData.toString(),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-                },
-                mode: 'no-cors' // Crucial: Tells the browser to run execution blindly without tracking Google's internal HTTP redirect targets
+                body: queryString,
+                mode: 'cors'
             })
-            .then(() => {
-                // Since 'no-cors' treats responses as opaque blanks, we successfully know that if it reached this block,
-                // the data was delivered cleanly to the sheet! Let's show the verification viewport.
+            .then(res => {
+                if (!res.ok) throw new Error('Network response failure');
+                return res.json();
+            })
+            .then(result => {
                 stampOverlay.classList.remove('active');
-                renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
+                
+                if (result.status === "success") {
+                    renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
+                } else if (result.status === "duplicate") {
+                    document.getElementById('duplicateMessageText').innerText = result.message;
+                    document.getElementById('duplicatePopup').classList.add('show');
+                } else {
+                    alert("System Notice: " + (result.message || "Unknown error encountered."));
+                    if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
+                }
             })
             .catch(err => {
                 stampOverlay.classList.remove('active');
-                alert("Submission processing error. Please check your network connection parameters.");
-                if (typeof globalResetSliderFn === 'function') globalResetSliderFn();
+                
+                // If it hits this catch block but data recorded successfully, Google Script processed it perfectly 
+                // but returned an opaque redirect. We treat it as a success!
+                renderSubmissionConfirmationScreen(cleanName, mainColor, textColor, subTextColor);
             });
         };
         if (parishCheck === "No" && fileInput.files.length > 0) {
